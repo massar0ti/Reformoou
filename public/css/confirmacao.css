@@ -1,0 +1,105 @@
+/* Reset de estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Estilo da página */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 2.3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin-top: -100px;
+  }
+
+  header img{
+    width: 200px;
+    margin-left: -550px;
+    margin-top: 40px;
+    margin-bottom: 130px;
+  }
+
+  
+ 
+
+    button {
+    background-color: #0047ab;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s, transform 0.2s;
+    font-weight: 600;
+    margin-left: 10px;
+    width: 400px;
+    margin-top: 10px;
+  }
+  
+    button:hover {
+      background-color: #0047ab;
+      transform: scale(1.05);
+      font-weight: 600;
+  }
+
+
+  body, html {
+    height: 100%;
+    margin: -20 0 0 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+  main{
+    background-color: aliceblue;
+    box-shadow: 0px 0px 25px gray;
+    border-radius: 10px;
+    padding: 30px;
+    /* margin-left: 100px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: -120px;
+    margin-bottom: 70px;
+  }
+
+  main img{
+    width: 110px;
+  }
+
+  .cadastro{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .a{
+    text-align: center;
+    margin-top: -10px;
+    font-size: 20px;
+    
+  }
+
+  .a a{
+    text-decoration: none;
+  }
+
+  .cadastro{
+    font-weight: 400;
+  }
+
+  .logo-reformoou{
+    width: 150px;
+  }

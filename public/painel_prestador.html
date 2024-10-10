@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do prestador</title>
+  <link rel="stylesheet" href="css/painel_user.css">
+  <link rel="stylesheet" href="css/FONT.css">
+</head>
+<body>
+
+  <header class="cabecalho">
+    <h1 id="nome"></h1>
+    <label class="burger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </header>
+  <!-- O retângulo branco que aparece à esquerda -->
+  <div id="menu-lateral" class="menu-lateral">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="#" onclick="logout()">Sair</a></li>
+    </ul>
+  </div>
+
+  <h1 class="titulo_informacoes">Suas informações</h1>
+  <article class="suas_informacoes">
+    <section class="dados">
+      <h2>Informações Pessoais</h2>
+      <div class="card">
+        <p id="documento">CNPJ: </p>
+        <p id="telefone">Telefone: </p>
+        <p id="email">Email: </p>
+        <button onclick="editarInformacoesPessoais()">Editar</button>
+      </div>
+    </section>
+
+    <section class="endereco">
+      <h2>Endereço</h2>
+      <div class="card">
+        <p id="rua">Rua: </p>
+        <p id="numero">Número: </p>
+        <p id="cidade">Cidade: </p>
+        <p id="estado">Estado: </p>
+        <button onclick="editarEndereco()">Editar</button>
+      </div>
+    </section>
+  </article>
+
+    <div id="solicitacoes_reforma" class="categorias"></div>
+
+    <h2 id="txt_orcamento" style="display: none;"></h2>
+    <div id="orcamentos" class="categorias"></div>
+
+    
+    <div id="servicos_concluir" class="categorias"></div>
+
+    <div id="servico_finalizado" class="categorias">
+    </div>
+    
+  </div>
+
+  <script>
+    async function getUserId() {
+      try {
+        const userId = localStorage.getItem('userId');
+        return userId || null;
+      } catch (error) {
+        console.error('Erro ao obter ID do usuário:', error);
+        return null;
+      }
+    }
+
+    function formatarDocumento(documento) {
+      if (documento.length === 11) {
+        return documento.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+      } else if (documento.length === 14) {
+        return documento.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+      }
+      return documento;
+    }
+
+    function createElementWithText(tag, text) {
+      const element = document.createElement(tag);
+      element.textContent = text;
+      return element;
+    }
+
+    function updateElement(id, content) {
+      const element = document.getElementById(id);
+      if (element) {
+        if (content) {
+          element.innerHTML = content;
+          element.style.display = 'block';
+        } else {
+          element.style.display = 'none';
+        }
+      } else {
+        console.error(`Elemento com ID ${id} não encontrado`);
+      }
+    }
+
+    async function fetchAndUpdateData(userId) {
+      try {
+        // Fetch user data
+        const userResponse = await fetch(`http://localhost:3000/usuario_prestador/${userId}`);
+        const userResult = await userResponse.json();
+        if (userResult.status === 'success') {
+          const usuario = userResult.data;
+          document.getElementById('nome').textContent = `${usuario.nome_completo}`;
+          document.getElementById('documento').textContent = `CNPJ: ${formatarDocumento(usuario.documento)}`;
+          document.getElementById('telefone').textContent = `Telefone: ${usuario.telefone}`;
+          document.getElementById('email').textContent = `Email: ${usuario.email}`;
+          document.getElementById('rua').textContent = `Rua: ${usuario.rua}`;
+          document.getElementById('numero').textContent = `Número: ${usuario.numero}`;
+          document.getElementById('cidade').textContent = `Cidade: ${usuario.cidade}`;
+          document.getElementById('estado').textContent = `Estado: ${usuario.estado}`;
+        }
+
+const reformaResponse = await fetch(`http://localhost:3000/get-servico-prestador/${userId}`);
+const reformaResult = await reformaResponse.json();
+
+if (reformaResult.status === 'success') {
+  const reformas = reformaResult.data;
+  let info = `<h2></h2><div class="categorias">`;
+
+  // Se `reformas` for uma lista, iterar sobre cada uma delas
+  reformas.forEach(reforma => {
+    info += `
+    <h2>Solicitação de orçamento!</h2>
+      <div class="categoria">
+        <div class="card-container">
+          <div class="card">
+            <p>${reforma.tipo_reforma ? `Tipo de lugar: ${reforma.tipo_reforma}` : ''}</p>
+            <p>${reforma.desc_espec ? `Preciso de: ${reforma.desc_espec}` : ''}</p>
+            <p>${reforma.ambiente ? `Ambiente: ${reforma.ambiente}` : ''}</p>
+            <p>${reforma.ambiente_extra ? `Ambiente Extra: ${reforma.ambiente_extra}` : ''}</p>
+            <p>${reforma.necessidade_obra ? `Necessidade de Obra: ${reforma.necessidade_obra}` : ''}</p>
+            <p>${reforma.atividade_salao ? `Atividade do Salão: ${reforma.atividade_salao}` : ''}</p>
+            <p>${reforma.descricao ? `Descrição: ${reforma.descricao}` : ''}</p>
+            <p>${reforma.descricao_prioridade ? `Para quando: ${reforma.descricao_prioridade}` : ''}</p>
+            <p>${reforma.descricao_reforma ? `Descrição da Reforma: ${reforma.descricao_reforma}` : ''}</p>
+            <p>${reforma.data_inicio ? `Data de Início: ${reforma.data_inicio}` : ''}</p>
+            <p>${reforma.data_termino ? `Data de Término: ${reforma.data_termino}` : ''}</p>
+            <p>${reforma.cep ? `CEP: ${reforma.cep}` : ''}</p>
+            <p>${reforma.rua ? `Rua: ${reforma.rua}` : ''}</p>
+            <p>${reforma.numero ? `Número: ${reforma.numero}` : ''}</p>
+            <p>${reforma.cidade ? `Cidade: ${reforma.cidade}` : ''}</p>
+            <button type="button" onclick="enviarOrcamento()">Enviar orçamento</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  info += `</div>`; // Fechar o bloco de categorias
+
+  updateElement('solicitacoes_reforma', info);
+} else {
+  console.error('Erro ao buscar solicitações de reforma:', reformaResult.message);
+}
+
+  try {
+  const orcamentoResponse = await fetch(`http://localhost:3000/orcamento_prestador/${userId}`);
+  if (!orcamentoResponse.ok) {
+    throw new Error('Erro na requisição: ' + orcamentoResponse.statusText);
+  }
+
+  const orcamentoResult = await orcamentoResponse.json();
+  
+  if (orcamentoResult.status === 'success') {
+    const orcamentos = orcamentoResult.data;
+    if (orcamentos.length > 0) {
+      // Exibe o título e os orçamentos
+      document.getElementById('txt_orcamento').style.display = 'block';
+      
+      const orcamentoInfo = orcamentos.map(orcamento => `
+      <h2>Orçamentos enviado!</h2>
+        <div class="categorias">
+          <div class="categoria">
+            <div class="card-container">
+              <div class="card">
+                <p>ID: ${orcamento.id_orcamento || 'Não especificado'}</p>
+                <p>ID do Prestador: ${orcamento.id_prestador || 'Não especificado'}</p>
+                <p>Nome do Prestador: ${orcamento.nome_completo || 'Não especificado'}</p>
+                <p>Valor: ${orcamento.valor || 'Não especificado'}</p>
+                <p>Orçamento Enviado: ${orcamento.dt_envio || 'Não especificado'}</p>
+                <button type="button" onclick="aceitarProposta(${orcamento.id_orcamento})">Ver orçamento</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      
+      // Atualiza o conteúdo do elemento com ID 'orcamentos'
+      updateElement('orcamentos', orcamentoInfo);
+    } else {
+      // Oculta o título e limpa a área de orçamentos
+      document.getElementById('txt_orcamento').style.display = 'none';
+      updateElement('orcamentos', '<p>Sem orçamentos recebidos.</p>');
+    }
+  } else {
+    console.error('Erro: Status diferente de sucesso', orcamentoResult.status);
+  }
+} catch (error) {
+  console.error('Erro ao buscar orçamentos:', error);
+}
+
+// Função para atualizar o conteúdo de um elemento
+function updateElement(elementId, content) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.innerHTML = content;
+  }
+}
+        // Fetch finalized services
+        const finalizarResponse = await fetch(`http://localhost:3000/finalizar_servico_prestador/${userId}`);
+        const finalizaResult = await finalizarResponse.json();
+        if (finalizaResult.status === 'success') {
+          const finaliza = finalizaResult.data;
+          const finalizeInfo = `
+  <h3>O serviço foi concluído?</h3>
+  <div class="categorias">
+    <div class="categoria">
+      <div class="card-container">
+        <div class="card">
+          <p>${finaliza.id_solicita ? `id: ${finaliza.id_solicita}` : ''}</p>
+          <p>${finaliza.tipo_reforma ? `Tipo de lugar: ${finaliza.tipo_reforma}` : ''}</p>
+          <p>${finaliza.ambiente ? `Ambiente: ${finaliza.ambiente}` : ''}</p>
+          <p>${finaliza.ambiente_extra ? `Ambiente Extra: ${finaliza.ambiente_extra}` : ''}</p>
+          <p>${finaliza.necessidade_obra ? `Necessidade de Obra: ${finaliza.necessidade_obra}` : ''}</p>
+          <p>${finaliza.atividade_salao ? `Atividade do Salão: ${finaliza.atividade_salao}` : ''}</p>
+          <p>${finaliza.descricao ? `Descrição: ${finaliza.descricao}` : ''}</p>
+          <p>${finaliza.descricao_reforma ? `Descrição da Reforma: ${finaliza.descricao_reforma}` : ''}</p>
+          <p>${finaliza.data_inicio ? `Data de Início: ${finaliza.data_inicio}` : ''}</p>
+          <p>${finaliza.rua ? `Endereço: ${finaliza.rua}` : ''}</p>
+          <p>${finaliza.nome_completo ? `Nome prestador: ${finaliza.nome_completo}` : ''}</p>
+          <p>${finaliza.valor ? `Valor: ${finaliza.valor}` : ''}</p>
+          <button type="button" onclick="finalizarServico('${finaliza.id_solicita}')">Finalizar serviço</button>
+        </div>
+      </div>
+    </div>
+  </div>
+`;
+
+          updateElement('servicos_concluir', finalizeInfo);
+        }
+
+        // Fetch completed services
+        const finalizadoResponse = await fetch(`http://localhost:3000/servico_finalizado_prestador/${userId}`);
+        const finalizadoesult = await finalizadoResponse.json();
+        if (finalizadoesult.status === 'success') {
+          const finalizado = finalizadoesult.data;
+          const finalizeInfo = `
+          <h3>Serviços Feitos!</h3>
+          <div class="categorias">
+        <div class="categoria">
+          <div class="card-container">
+            <div class="card">
+            <p>${finalizado.tipo_reforma ? `Tipo de lugar: ${finalizado.tipo_reforma}` : ''}</p>
+            <p>${finalizado.ambiente ? `Ambiente: ${finalizado.ambiente}` : ''}</p>
+            <p>${finalizado.ambiente_extra ? `Ambiente Extra: ${finalizado.ambiente_extra}` : ''}</p>
+            <p>${finalizado.necessidade_obra ? `Necessidade de Obra: ${finalizado.necessidade_obra}` : ''}</p>
+            <p>${finalizado.atividade_salao ? `Atividade do Salão: ${finalizado.atividade_salao}` : ''}</p>
+            <p>${finalizado.descricao ? `Descrição: ${finalizado.descricao}` : ''}</p>
+            <p>${finalizado.descricao_reforma ? `Descrição da Reforma: ${finalizado.descricao_reforma}` : ''}</p>
+            <p>${finalizado.data_inicio ? `Data de Início: ${finalizado.data_inicio}` : ''}</p>
+            <p>${finalizado.data_fim ? `Fim da reforma: ${finalizado.data_fim}` : ''}</p>
+            <p>${finalizado.nome_completo ? `Nome prestador: ${finalizado.nome_completo}` : ''}</p>
+            <p>${finalizado.valor ? `Valor: ${finalizado.valor}` : ''}</p>
+            <p>${finalizado.avaliacao ? `Avaliação: ${finalizado.avaliacao}` : ''}</p>
+            <button type="button" onclick="servico_finalizado()">Ver detalhes</button>
+            </div>
+            </div>
+            </div>
+            </div>
+          `;
+          updateElement('servico_finalizado', finalizeInfo);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar e atualizar dados:', error);
+      }
+    }
+
+    async function initialize() {
+      const userId = await getUserId();
+      if (userId) {
+        await fetchAndUpdateData(userId);
+      } else {
+        alert('Usuário não encontrado. Por favor, faça login novamente.');
+      }
+    }async function editarInformacoesPessoais() {
+  try {
+    const userId = await getUserId();
+    if (userId) {
+      window.location.href = `editar_informacoes_prestador.html?id=${userId}`;
+    } else {
+      console.error('ID do usuário não encontrado');
+    }
+  } catch (error) {
+    console.error('Erro ao redirecionar para edição de informações pessoais:', error);
+  }
+}
+
+async function editarEndereco() {
+  try {
+    const userId = await getUserId();
+    if (userId) {
+      window.location.href = `editar_endereco_prestador.html?id=${userId}`;
+    } else {
+      console.error('ID do usuário não encontrado');
+    }
+  } catch (error) {
+    console.error('Erro ao redirecionar para edição de endereço:', error);
+  }
+}
+
+async function enviarOrcamento() {
+  try {
+    const userId = await getUserId();
+    if (userId) {
+      window.location.href = `enviar_orcamento.html?id=${userId}`;
+    } else {
+      console.error('ID do usuário não encontrado');
+    }
+  } catch (error) {
+    console.error('Erro ao redirecionar para a edição de reforma:', error);
+  }
+}
+
+function aceitarProposta(id_orcamento) {
+  window.location.href = `visualizar_orcamento.html?id_orcamento=${id_orcamento}`;
+}
+// Função que redireciona para a página de avaliação com o id_solicita na URL
+function finalizarServico(id_solicita) {
+  window.location.href = `finalizar_servico_prestador.html?id_solicita=${id_solicita}`;
+}
+
+
+async function logout() {
+      try {
+        const response = await fetch('http://localhost:3000/logout', { method: 'POST' });
+        const result = await response.json();
+        if (result.status === 'success') {
+          localStorage.removeItem('userId');
+          window.location.href = 'login_prestador.html';
+        } else {
+          console.error('Logout falhou:', result.message);
+        }
+      } catch (error) {
+        console.error('Erro ao sair:', error);
+      }
+    }
+
+    initialize();
+
+
+    // Seleciona o ícone de hambúrguer e o menu lateral
+    const burger = document.querySelector('.burger');
+    const menuLateral = document.getElementById('menu-lateral');
+
+    // Adiciona o evento de clique no hambúrguer
+    burger.addEventListener('click', function () {
+      // Alterna a classe 'active' no ícone de hambúrguer para animação
+      burger.classList.toggle('active');
+
+      // Alterna a classe 'show' no menu lateral para mostrar/ocultar
+      menuLateral.classList.toggle('show');
+    });
+  </script>
+</body>
+</html>

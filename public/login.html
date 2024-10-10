@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login cliente</title>
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/FONT.css">
+</head>
+<header class="cabecalho">
+  <nav class="cabecalho-titulo">
+    <a href="index.html"><img src="imgnovas/Reformoou4.png" alt="Logo Reformoou" class="logo-reformoou"></a>
+  </nav>
+</header>
+
+<body>
+  <h1 style="font-weight: 300; margin-top: -130px; font-size: 45px;">Faça seu login de<br> <span style="font-weight: 600; font-size: 1.3em; margin-bottom: -20px;">cliente</span></h1>
+  <div class="login-container">
+    <form class="login-form" id="loginForm">
+      
+      <label for="documento">CPF/CNPJ
+        <input type="text" id="documento" name="documento" oninput="aplicarMascaraDocumento(this)" required>
+      </label>
+      <label for="senha">Senha
+        <input type="password" id="senha" name="senha" required>
+      </label>   
+    <p id="resultado" style="color: red;"></p>
+      <button class="button" type="submit">Entrar</button>
+    </form>
+    <p class="signup-link">Não tem uma conta? <a href="cadastro_cliente.html">Cadastre-se</a></p>
+  </div>
+
+  <script>
+    function aplicarMascaraCPF(cpf) {
+      cpf = cpf.replace(/\D/g, '');
+      if (cpf.length > 11) cpf = cpf.slice(0, 11);
+      cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+      cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+      cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      return cpf;
+    }
+
+    function aplicarMascaraCNPJ(cnpj) {
+      cnpj = cnpj.replace(/\D/g, '');
+      if (cnpj.length > 14) cnpj = cnpj.slice(0, 14);
+      cnpj = cnpj.replace(/^(\d{2})(\d)/, '$1.$2');
+      cnpj = cnpj.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+      cnpj = cnpj.replace(/\.(\d{3})(\d)/, '.$1/$2');
+      cnpj = cnpj.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+      return cnpj;
+    }
+
+    function aplicarMascaraDocumento(input) {
+      const valor = input.value.replace(/\D/g, '');
+      if (valor.length <= 11) {
+        input.value = aplicarMascaraCPF(valor);
+      } else {
+        input.value = aplicarMascaraCNPJ(valor);
+      }
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+
+      const form = document.getElementById('loginForm');
+      const formData = new FormData(form);
+
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      try {
+        const response = await fetch('http://localhost:3000/login_cliente', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        document.getElementById('resultado').textContent = result.message || 'Login bem-sucedido!';
+
+        if (result.status === 'success') {
+          localStorage.setItem('userId', result.userId);
+          window.location.href = 'painel_user.html';
+        }
+      } catch (error) {
+        console.error('Erro ao enviar o formulário:', error);
+        document.getElementById('resultado').textContent = 'Erro ao enviar o formulário';
+      }
+    }
+
+    window.addEventListener('load', async () => {
+      const userId = localStorage.getItem('userId');
+
+      if (userId) {
+        try {
+          const response = await fetch(`http://localhost:3000/usuario/${userId}`);
+          const result = await response.json();
+
+          if (result.status === 'success') {
+            const usuario = result.data;
+
+            // Verifica o tipo de cadastro e redireciona ou mantém na página de login
+            if (['CF', 'CJ'].includes(usuario.tipo_cadastro)) {
+              // Redireciona para o painel do prestador
+              window.location.href = 'painel_user.html';
+            } else {
+              // Define um cookie para armazenar o userId e redireciona para a página de login do prestador
+              document.cookie = `userId=${userId}; path=/`;
+            }
+          } else {
+            console.log('Usuário não encontrado');
+          }
+        } catch (error) {
+          console.error('Erro ao buscar informações do usuário:', error);
+        }
+      } else {
+        console.log('ID de usuário não encontrado');
+      }
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+const passwordInput = document.getElementById('senha');
+const togglePasswordButton = document.getElementById('toggle-password');
+const eyeImage = document.getElementById('eye-image');
+
+togglePasswordButton.addEventListener('click', () => {
+  const type = passwordInput.type === 'password' ? 'text' : 'password';
+  passwordInput.type = type;
+  
+  // Alterar o ícone do olho
+  if (type === 'password') {
+    eyeImage.src = 'imagens/olho.png'; // Caminho para a imagem de olho aberto
+    eyeImage.alt = 'Mostrar Senha';
+  } else {
+    eyeImage.src = 'imagens/fechar-o-olho.png'; // Caminho para a imagem de olho fechado
+    eyeImage.alt = 'Ocultar Senha';
+  }
+});
+});
+
+  </script>
+</body>
+
+</html>

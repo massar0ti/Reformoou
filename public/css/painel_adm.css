@@ -1,0 +1,188 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilo da página */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 90%; /* Ajusta a largura para 90% da largura da tela */
+  max-width: 2000px; /* Define a largura máxima */
+  margin: 20px auto; /* Centraliza horizontalmente */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Para que o formulário sobreposto se posicione em relação a este container */
+}
+
+h1, h2, h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.section {
+  margin-top: 20px; /* Espaço entre as seções */
+  display: flex;
+  gap: 20px;
+}
+
+.section .dados,
+.section .endereco {
+  flex: 1;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Centraliza o texto no card */
+  width: 100%; /* Para ocupar toda a largura do container */
+  max-width: 300px; /* Largura máxima dos cards */
+  margin-bottom: 20px; /* Espaço entre os cards */
+}
+
+.card button {
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 15px;
+  width: 200px;
+  height:37px;
+}
+
+.card button:hover {
+  background-color: #ff4500;
+  font-size: 17px;
+}
+
+.card-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.categorias {
+  margin-top: 20px;
+}
+
+.categoria {
+  margin-bottom: 20px;
+}
+
+.categoria h3 {
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.categoria .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start; /* Alinha os cards à esquerda */
+}
+
+.categoria .card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Para ocupar toda a largura disponível */
+  max-width: calc(50% - 20px); /* Largura máxima dos cards */
+  margin-bottom: 20px; /* Espaço entre os cards */
+}
+
+.categoria .card h3 {
+  margin-bottom: 10px;
+}
+
+.categoria .card p {
+  text-align: left; /* Alinha o texto dos parágrafos à esquerda */
+  margin-bottom: 5px; /* Espaçamento entre os parágrafos */
+}
+
+.categoria .card button {
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.categoria .card button:hover {
+  background-color: #ff4500;
+}
+nav.menu ul li.right {
+  position: absolute;
+  right: 150px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+nav.menu ul li.right_login {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-profissional, .btn-login {
+  background-color: #ff6347;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-profissional:hover, .btn-login:hover {
+  background-color: #ff4500;
+}
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05); /* Aumenta o botão quando o mouse passa por cima */
+}
+
+/* Botão de Alterar */
+button.alterar {
+  background-color: #E78603; /* Laranja */
+}
+
+button.alterar:hover {
+  background-color: #d97e00; /* Tom mais escuro de laranja */
+}
+
+/* Botão de Excluir */
+button.excluir {
+  background-color: #e74c3c; /* Vermelho */
+  
+}
+
+button.excluir:hover {
+  background-color: #c0392b; /* Tom mais escuro de vermelho */
+}

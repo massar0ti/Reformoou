@@ -1,0 +1,173 @@
+/* Reset de estilos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+}
+
+/* Define a largura e remove flex do logo */
+.logo-reformoou {
+  width: 150px;
+  margin-right: 1100px;
+  margin-top: 20px;
+}
+
+/* Estilo da página */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Estilo do nav */
+nav.menu {
+  background-color: #333;
+  width: 100%;
+  padding: 10px 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+nav.menu ul {
+  list-style: none;
+  text-align: center;
+  position: relative;
+}
+
+nav.menu ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+nav.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+nav.menu ul li a:hover {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+nav.menu ul li.right {
+  position: absolute;
+  right: 150px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+nav.menu ul li.right_login {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-profissional, .btn-login {
+  background-color: #0047ab;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-profissional:hover, .btn-login:hover {
+  background-color: #0047ab;
+}
+
+/* Estilo do container de login */
+.login-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  margin-top: 50px; /* Adiciona espaço abaixo do nav */
+}
+
+h1{
+  text-align: center;  
+}
+
+.login-container h1 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-form label {
+  text-align: left;
+  color: #333;
+}
+
+.login-form input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  
+}
+
+.button {
+  background-color: #0047ab;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s, transform 0.2s;
+  font-weight: 600;
+}
+
+.login-form .button:hover {
+  background-color: #0047ab;
+  transform: scale(1.05);
+  font-weight: 600;
+}
+
+/* Estilo do link para cadastro */
+.signup-link {
+  margin-top: 15px;
+  font-size: 0.97em;
+  color: #333;
+}
+
+.signup-link a {
+  color: #0047ab;
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 56.6%;
+  right: 37.5%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.button_eye{
+  background: transparent;
+}

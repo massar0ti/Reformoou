@@ -1,0 +1,108 @@
+<div class="container">
+    <input type="text" id="input" placeholder="Digite para filtrar..." autocomplete="off" />
+    <ul id="options" class="options-list"></ul>
+    <ul id="selected-options" class="selected-options-list"></ul> <!-- Adicionado para exibir as opções selecionadas -->
+</div>
+
+
+
+
+.container {
+width: 530px;
+margin: -15px -10px -10px;
+position: relative;
+padding: 10px 30px 10px 10px;
+}
+
+#input {
+width: 100%;
+padding: 8px;
+box-sizing: border-box;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+.options-list {
+position: absolute;
+width: 100%;
+border: 1px solid #ccc;
+border-top: none;
+max-height: 150px;
+overflow-y: auto;
+background: white;
+list-style-type: none;
+padding: 0;
+margin: 0;
+z-index: 1000;
+}
+
+.options-list li {
+padding: 8px;
+cursor: pointer;
+}
+
+.options-list li:hover {
+background-color: #eee;
+}
+
+.container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 20px;
+}
+
+
+
+
+const input = document.getElementById('input');
+const optionsList = document.getElementById('options');
+const originalOptions = [
+{ value: '', text: 'Selecione' },
+{ value: 'banheiro', text: 'Banheiro' },
+{ value: 'cozinha', text: 'Cozinha' },
+{ value: 'corredor', text: 'Corredor' },
+{ value: 'escritorio', text: 'Escritorio' },
+{ value: 'lavanderia', text: 'Eavanderia' },
+{ value: 'sala_estar', text: 'Sala de estar' },
+{ value: 'sala_jantar', text: 'Sala de jantar' },
+{ value: 'quarto', text: 'Quarto' },
+{ value: 'outros', text: 'Outros' }
+];
+
+function updateOptions(filter = '') {
+const filteredOptions = originalOptions.filter(option =>
+option.text.toLowerCase().includes(filter.toLowerCase())
+);
+
+// Limpa as opções atuais
+optionsList.innerHTML = '';
+
+// Adiciona as opções filtradas
+filteredOptions.forEach(option => {
+const li = document.createElement('li');
+li.textContent = option.text;
+li.dataset.value = option.value;
+li.addEventListener('click', function() {
+input.value = this.textContent; // Preenche o input com a opção selecionada
+optionsList.style.display = 'none'; // Esconde a lista de opções
+});
+optionsList.appendChild(li);
+});
+
+// Exibe ou oculta a lista de opções com base no filtro
+optionsList.style.display = filteredOptions.length ? 'block' : 'none';
+}
+
+input.addEventListener('input', function() {
+updateOptions(input.value);
+});
+
+input.addEventListener('focus', function() {
+updateOptions(); // Mostra todas as opções quando o input é focado
+});
+
+document.addEventListener('click', function(event) {
+if (!event.target.closest('.container')) {
+optionsList.style.display = 'none';
+}
+});

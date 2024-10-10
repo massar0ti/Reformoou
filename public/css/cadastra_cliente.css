@@ -1,0 +1,492 @@
+/* Reset de estilos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilo da página */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.logo-reformoou {
+  width: 150px;
+  margin-right: 1098px;
+  margin-top: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#sub-titulo{
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+nav.menu {
+  background-color: #333;
+  padding: 30px 0;
+}
+
+nav.menu ul {
+  list-style: none;
+  text-align: center;
+  position: relative;
+}
+
+nav.menu ul li {
+  display: inline;
+  margin: 0 15px;
+  
+}
+
+nav.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  
+}
+
+nav.menu ul li a:hover {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+/* Estilo do cabeçalho */
+h1 {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 45px;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 30px;
+}
+
+p {
+  margin-top: 20px;
+}
+
+/* Estilo dos containers de cards */
+.card-container {
+  overflow-x: auto;
+  padding-bottom: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px; /* Espaçamento entre os cards */
+  justify-content: center;
+  margin-top: 35px;
+}
+
+.carde, .card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  width: 250px;
+  height: 300px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.carde:hover, .card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para os links dos cards */
+.card-container a {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+.card h2, .carde h2 {
+  font-size: 20px;
+}
+
+.carde p {
+  color: #333;
+  font-size: 16px;
+}
+
+.card p {
+  color: #333;
+  font-size: 16px;
+}
+
+.buttonselecionar{
+  background-color: #ff4500;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s, transform 0.2s;
+  align-self: center;
+}
+
+.buttonselecionar:hover {
+  background-color: #ff6347;
+  transform: scale(1.05);
+}
+
+.buttonselecionar{
+  background-color: #ff6347;
+  margin-top: auto;
+  font-weight: bold;
+  letter-spacing: 0.7px;
+}
+
+.carde h2{
+  margin-top: 0px;
+}
+
+.card, .carde{
+  margin-top: auto;
+}
+
+/* Estilo da apresentação */
+.apresentacao {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 165px;
+}
+
+.apresentacao p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #333;
+  text-align: center;
+}
+
+nav.menu ul li.right {
+  position: absolute;
+  right: 130px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+nav.menu ul li.right_login {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-profissional {
+  background-color: #ff6347;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-login {
+  background-color: #ff6347;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-profissional:hover {
+  background-color: #ff4500;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+  nav.menu ul li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  nav.menu ul li.right,
+  nav.menu ul li.right_login {
+    position: static;
+    transform: none;
+    margin: 10px 0;
+  }
+
+  .card-container {
+    flex-wrap: wrap;
+  }
+
+  .carde, .card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  nav.menu ul li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  h1, h2 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  .carde, .card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .carde h2, .card h2 {
+    font-size: 18px;
+  }
+
+  .carde p {
+    font-size: 14px;
+  }
+
+  .buttonselecionar{
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .apresentacao p {
+    font-size: 14px;
+  }
+}
+/* Estilo do formulário de contato */
+form#contact-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+form#contact-form .form-group {
+  margin-bottom: 15px;
+}
+
+form#contact-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form#contact-form input[type="text"],
+form#contact-form input[type="email"],
+form#contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+form#contact-form button {
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 15px 30px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.2s, transform 0.2s;
+  width: 100%;
+}
+
+form#contact-form button:hover {
+  background-color: #ff4500;
+  transform: scale(1.05);
+}
+fieldset {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  width: 40%;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus {
+  border-color: #333;
+  outline: none;
+}
+
+.btn-solicitar {
+  background-color: #0047ab;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 20px 0;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 100%;
+  font-weight: 600;
+}
+
+.btn-solicitar:hover {
+  background-color: #0047ab;
+  transform: scale(1.05);
+  font-weight: 600;
+}     
+
+nav.menu ul li.right {
+  position: absolute;
+  right: 150px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+nav.menu ul li.right_login {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-profissional, .btn-login {
+  background-color: #ff6347;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-profissional:hover, .btn-login:hover {
+  background-color: #ff4500;
+}
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+.valid {
+  color: green;
+}
+.criteria {
+  list-style: none;
+  padding: 0;
+}
+.criteria li {
+  margin-bottom: 5px;
+}
+.criteria li.valid::before {
+  content: '✔️ ';
+  color: green;
+}
+.criteria li.invalid::before {
+  content: '❌ ';
+  color: red;
+}
+.valid { color: green; }
+    .invalid { color: red; }
+
+
+
+
+
+
+
+
+
+    /* From Uiverse.io by Pradeepsaranbishnoi */ 
+:focus {
+  outline: 0;
+  border-color: #2260ff;
+  box-shadow: 0 0 0 4px #b5c9fc;
+}
+
+.mydict div {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  justify-content: center;
+  margin-bottom: 45px;
+}
+
+.mydict input[type="radio"] {
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.mydict input[type="radio"]:checked + span {
+  box-shadow: 0 0 0 0.0625em #0043ed;
+  background-color: #dee7ff;
+  z-index: 1;
+  color: #0043ed;
+}
+
+label span {
+  display: block;
+  cursor: pointer;
+  background-color: #fff;
+  padding: 0.375em .75em;
+  position: relative;
+  margin-left: .0625em;
+  box-shadow: 0 0 0 0.0625em #b5bfd9;
+  letter-spacing: .05em;
+  color: #3e4963;
+  text-align: center;
+  transition: background-color .5s ease;
+}
+
+label:first-child span {
+  border-radius: .375em 0 0 .375em;
+}
+
+label:last-child span {
+  border-radius: 0 .375em .375em 0;
+}

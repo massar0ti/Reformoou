@@ -1,0 +1,828 @@
+*{
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+}
+ 
+body{
+    /* background-color: rgba(233,246,255,1);  */
+    background-color: #f2f2f2;
+    font-family: Arial, Helvetica, sans-serif;
+    /* max-height: 500px;
+     100%; */
+     max-width:1200px;
+    margin: auto;
+}
+ 
+.logo-reformoou{
+    width: 300px;
+}
+ 
+.logo-notificacao{
+    width: 30px;
+}
+ 
+.logo-conta{
+    width: 40px;
+    margin: 0px -170px 0px -50px;
+}
+ 
+.logo__compras{
+    width: 40px;
+}
+ 
+.prestador{
+    border: 2px solid #F48600;
+    margin-left: 500px;
+    padding: 12px 30px;
+    text-decoration: none;
+    color: #F48600;
+    font-weight: bold;
+    border-radius: 7px;
+    width: 300px;
+    text-align: center;
+    transition: border-width 0.04s ease;
+
+}
+ 
+.prestador:hover{
+    border-width: 0px;
+}
+ 
+.cabecalho-titulo{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 70px;
+}
+ 
+ 
+ 
+.cabecalho-principal{
+    margin-top: 50px;
+    margin-left: 50px;
+}
+ 
+.principal-titulo{
+    font-size: 65px;
+    text-transform: uppercase;
+    margin-bottom: 1px;
+    color: #156ead;
+}
+ 
+.imghome{
+    width: 100%;
+}
+ 
+.img__home{
+    height: 500px;
+    width: 100%;
+}
+ 
+.sec1{
+    text-align: center;
+    margin-top: 70px;
+}
+ 
+.titulo__sec1{
+    font-size: 45px;
+    color: black;
+    font-weight: 400;
+}
+ 
+.cont__sec1{
+    font-size: 25px;
+    margin-bottom: 70px;
+    color: #000000;
+    font-weight: 300;
+}
+ 
+.cards{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    cursor: pointer;
+}
+ 
+.card_prestador img{
+    height: 270px;
+}
+ 
+.card_prestador h1{
+    font-size: 2.5em;
+    font-weight: 400;
+}
+ 
+.card_cliente img{
+    height: 270px;
+}
+ 
+ 
+.card_cliente h1{
+    font-size: 2.5em;
+    font-weight: 400;
+}
+ 
+ 
+ 
+.button_selecionar{
+    width: 200px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    font-size: 20px;
+    border-radius: 15px;
+    text-align: center;
+    border: none;
+    background-color: #FF8C00;
+    color: white;
+    box-shadow: 0px 2px 8px black;
+}
+ 
+ 
+ 
+.titulo_cliente{
+    margin-top: 60px;
+    text-align: center;
+    font-size: 48px;
+    font-weight: 400;
+}
+ 
+.sec3 {
+    margin-top: -20px;
+    display: flex;
+    justify-content: space-around; /* Alinha os itens horizontalmente com espaçamento */
+    align-items: stretch; /* Garante que todas as divs tenham a mesma altura */
+    padding: 20px;
+    background-color: transparent; /* Deixe o fundo da sec3 transparente */
+}
+ 
+.sec3 div {
+    flex: 1;
+    padding: 20px;
+    margin: 10px; /* Espaço entre as caixas */
+    background-color: #fff; /* Fundo branco para as caixas */
+    border-radius: 10px; /* Bordas arredondadas */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ao redor das caixas */
+    text-align: center;
+    min-height: 250px; /* Altura mínima para garantir que todas as divs tenham pelo menos essa altura */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Alinha o conteúdo no centro verticalmente */
+}
+ 
+.sec3 img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+ 
+.sec3 h2 {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+ 
+.sec3 p {
+    font-size: 1em;
+    line-height: 1.5;
+    text-align: center;
+    font-weight: 400;
+}
+ 
+ 
+ 
+ 
+.comodos {
+    display: flex;
+    align-items: center;
+    transition: transform 0.5s ease-in-out; /* Animação suave para o movimento do carrossel */
+}
+ 
+ 
+ 
+ 
+ 
+.sec4 {
+    background-color: #FFA02C;
+    padding-bottom: 120px;
+    border-radius: 10px;
+    margin-left: 10px;
+   
+}
+ 
+.sec4 img{
+    width: 280px;
+    margin-left: 100px;
+    margin-top: 30px;
+}
+ 
+.sec4 h2{
+    margin-left: 50%;
+    margin-top: -20%;
+    font-size: 40px;
+}
+ 
+.sec4 p{
+    margin-left: 56%;
+    font-size: 20px;
+    color: #3A3A3A;
+ 
+}
+.titulo_prestador{
+    margin-top: 120px;
+    text-align: center;
+    font-size: 48px;
+    font-weight: 400;
+}
+.sec5 {
+    display: flex;
+    justify-content: space-around; /* Espaça os itens uniformemente */
+    align-items: stretch; /* Garante que todos os itens tenham a mesma altura */
+    flex-wrap: nowrap; /* Permite que os itens quebrem para a próxima linha, se necessário */
+    padding: 20px;
+    text-align: center;
+    margin-top: -20px;
+ 
+}
+ 
+.div4{
+    margin-right: 800px;
+    margin-left: -10px;
+}
+ 
+.div5{
+    margin-left: 400px;
+    margin-right: 380px;
+    margin-top: -315px;
+}
+ 
+.div6{
+    margin-left: 820px;
+    margin-top: -315px;
+    margin-right: -20px;
+}
+ 
+ 
+.sec5 div {
+    flex: 0 1 30%; /* Ocupa cerca de 30% da largura, ajustável conforme necessário */
+    margin: 10px; /* Espaçamento entre os cards */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+}
+ 
+.sec5 img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+ 
+.sec5 h2 {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+ 
+.sec5 p {
+    font-size: 1em;
+    line-height: 1.5;
+    font-weight: 400;
+}
+ 
+ 
+.titulo_avaliacao{
+    text-align: center;
+    font-size: 48px;
+    color: #004C7B;
+}
+.sec6 {
+    padding: 20px;
+}
+ 
+.div7{
+    margin-right: 800px;
+    margin-left: -10px;
+}
+ 
+.div8{
+    margin-left: 400px;
+    margin-right: 380px;
+    margin-top: -245px;
+}
+ 
+.div9{
+    margin-left: 820px;
+    margin-top: -245px;
+    margin-right: -20px;
+}
+ 
+.sec6 div {
+    flex: 1;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+}
+ 
+.sec6 img {
+    max-width: 100px;
+    height: auto;
+}
+ 
+.sec6 h2 {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+ 
+.sec6 p {
+    font-size: 1em;
+    line-height: 1.5;
+    text-align: left;
+}
+ 
+.sec_cliente{
+    margin-top: 100px;
+    position: relative;
+    display: flex;
+    gap: 80px;
+}
+ 
+.sec_prestador_backimg{
+    background-image: url("fotocliente.jpg");
+    display: flex;
+    align-items: center;
+    width: 550px;
+    height: 550px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    position: relative;
+    z-index: -10;
+}
+ 
+.sec_cliente_img_but{
+    display: flex;
+    justify-content: space-between;
+}
+ 
+.sec_cliente_backimg{
+    background-image: url("imgnovas/5\ Formas\ Inovadoras\ de\ Integrar\ Sala\ e\ Cozinha\ em\ Casas\ Modernas_.jpg");
+    align-items: center;
+    width: 550px;
+    height: 550px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    position: relative;
+    z-index: -10;
+ 
+   
+}
+ 
+.sec_cliente_backimg p{
+    height: 30px;
+    position: absolute;
+    top: 23%;
+    right: -40%;
+    transform: translate(-50%, -50%);
+    background-color: #0047ab;
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 21px;
+    letter-spacing: 1.3px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    z-index: 10;
+    white-space: nowrap;
+}
+ 
+   
+ 
+ 
+.sec_prestador_backimg p{
+    height: 30px;
+    position: absolute;
+    top: 23%;
+    right: 17%;
+    transform: translate(-50%, -50%);
+    background-color: #0047ab;
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 21px;
+    letter-spacing: 1.3px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    z-index: 10;
+    white-space: nowrap;
+}
+ 
+.sec_cliente_text h1{
+    letter-spacing: 0.3px;
+    font-size: 2.1em;
+    font-weight: 500;
+}
+ 
+.sec_cliente_text p{
+    font-size: 1.2em;
+}
+ 
+.figure_correto{
+    margin-top: 50px;
+    margin-left: 0px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+ 
+.figure_correto div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Espaçamento entre as linhas */
+    width: 48%; /* Largura para caber dois itens por linha com espaço entre eles */
+  }
+ 
+.figure_correto img{
+    height: 40px;
+    margin-right: 10px; /* Espaçamento entre a imagem e o texto */
+}
+ 
+ 
+ 
+ 
+ 
+/* From Uiverse.io by adamgiebl */
+button {
+    position: relative;
+    display: inline-block;
+    margin: 0px 15px 70px 0px;
+    padding: 15px 40px;
+    text-align: center;
+    font-size: 21px;
+    letter-spacing: 1.3px;
+    text-decoration: none;
+    color: #0047ab;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid #0047ab;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 #0047ab;
+    font-weight: bold;
+  }
+ 
+  button:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 #0047ab;
+    font-weight: bold;
+  }
+ 
+  button:active {
+    transform: scale(0.9);
+  }
+ 
+  .div_text{
+    font-size: 1.55em;
+    width: 700px;
+    margin-left: 50px;
+    margin-top: 40px;
+  }
+ 
+  .div_text h1{
+    font-weight: 200;
+  }
+ 
+.sec_home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ 
+.figurehome img{
+    width: 500px;
+    margin-top: 30px;
+}
+ 
+.sec_home{
+    align-items: cente;
+    gap: 100px;
+}
+ 
+.sec_cliente_text a{
+    text-decoration: none;
+    display: inline-block; /* Garante que o link com o botão seja tratado como um bloco inline */
+}
+ 
+.sec_cliente_text span{
+    font-size: 1.01em;
+}
+ 
+ 
+.button_sec_cliente {
+    position: relative;
+    display: flex;
+    margin-top: 30px;
+    padding: 15px 150px;
+    text-align: center;
+    font-size: 21px;
+    letter-spacing: 1.3px;
+    text-decoration: none;
+    color: #0047ab;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid #0047ab;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 #0047ab;
+    font-weight: bold;
+    justify-content: center;
+  }
+ 
+  .button_sec_cliente:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 #0047ab;
+    font-weight: bold;
+  }
+ 
+  .button_sec_cliente:active {
+    transform: scale(0.9);
+  }
+
+
+  .prestador {
+    position: relative;
+    display: flex;
+    /* margin-top: 30px; */
+    padding: 15px 70px;
+    text-align: center;
+    font-size: 1em;
+    letter-spacing: 1.3px;
+    text-decoration: none;
+    color: #0047ab;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid #0047ab;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 #0047ab;
+    font-weight: bold;
+    justify-content: center;
+  }
+ 
+  .prestador:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 #0047ab;
+    font-weight: bold;
+  }
+ 
+  .prestador:active {
+    transform: scale(0.9);
+  }
+
+  .seila{
+    font-size: 2.8em;
+    font-weight: 400;
+    margin: 10px 0px 50px;
+  }
+
+  .img-color {
+    filter: grayscale(100%);
+    transition: filter 0.3s ease; /* Animação suave ao passar o mouse */
+}
+
+/* Quando o usuário passa o mouse sobre a imagem, ela volta a ser colorida */
+.img-color:hover {
+    filter: grayscale(0%);
+}
+
+.card_prestador,
+.card_cliente{
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.cards img{
+    border-radius: 7px;
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+@media (max-width: 550px) {
+    .logo-reformoou{
+        width: 200px;
+    }
+ 
+    .prestador{
+        margin-left: -20px;
+        margin-top: 20px;
+        font-size: 13px;
+        padding: 8px 3px;
+    }
+ 
+    .logo-conta{
+        margin-top: 20px;
+    }
+ 
+    .img__home{
+        width: 328px;
+        height: 200px;
+    }
+ 
+    .titulo__sec1{
+        font-size: 25px;
+    }
+ 
+    .cont__sec1{
+        font-size: 15px;
+    }
+ 
+ 
+ 
+    .seta__esquerda{
+        width:35px;
+        margin-right: -200px;
+        margin-left: 1px;
+    }
+ 
+    .img__casa{
+        width: 60px;
+        margin-top: 60px;
+        margin-left: -30px;
+       
+    }
+ 
+    .casa__p{
+        font-size: 18px;
+        margin-left: -30px;
+    }
+ 
+    .img__banheiro{
+        width: 50px;
+        margin-top: 45px;
+        margin-left: -40px;
+    }
+ 
+    .img__laterais1{
+        font-size: 15px;
+        margin-left: -45px;
+       
+    }
+ 
+    .img__laterais2{
+        font-size: 15px;
+        margin-left: -25px;
+    }
+ 
+    .img__quarto{
+        width: 50px;
+        margin-top: 45px;
+        margin-left: -30px;
+    }
+ 
+    .img__cozinha{
+        width: 40px;
+        margin-top: 40px;
+        margin-left: 50px;
+        margin-right: 20px;
+    }
+ 
+    .cozinha__p{
+        font-size: 13px;
+        margin-left: 30px;
+        margin-top: 0.1px;
+    }
+ 
+    .img__escritorio{
+        width: 40px;
+        margin-top: 40px;
+        margin-left: -20px;
+    }
+ 
+    .escritorio__p{
+        font-size: 13px;
+        margin-right: 40px;
+        margin-left: -20px;
+    }
+ 
+    .seta__direita{
+        width: 35px;
+        margin-left: -200px;
+    }
+ 
+    .sec4 img{
+        width: 250px;
+        margin-left: -20px;
+    }
+ 
+    .sec4 h2{
+        font-size: 30px;
+        margin-top: -250px;
+    }
+ 
+    .sec4 p{
+        margin-left: 225px;
+    }
+ 
+    .titulo_prestador{
+        font-size: 25px;
+        margin-top: 50px;
+    }
+ 
+    .div4{
+        margin-right: 0px;
+    }
+ 
+    .div4 h2{
+        margin-top: -10px;
+    }
+ 
+    .div4 img{
+        width: 70px;
+    }
+ 
+    .div5{
+        margin-top: 10px;
+        margin-left: -10px;
+        margin-right: 0px;
+ 
+    }
+ 
+    .div5 img{
+        width: 70px;
+    }
+ 
+    .div5 h2{
+        margin-top: -10px;
+ 
+    }
+ 
+    .div6{
+        margin-top: 10px;
+        margin-right: 0px;
+        margin-left: -10px;
+    }
+ 
+    .div6 img{
+        width: 70px;
+    }
+ 
+    .titulo_avaliacao{
+        font-size: 25px;
+    }
+ 
+    .div7{
+        margin-right: 0px;
+    }
+ 
+    .div7 h2{
+        margin-top: -10px;
+    }
+ 
+    .div7 img{
+        width: 70px;
+    }
+ 
+    .div8{
+        margin-top: 10px;
+        margin-left: -10px;
+        margin-right: 0px;
+    }
+ 
+    .div8 img{
+        width: 70px;
+    }
+ 
+    .div8 h2{
+        margin-top: -10px;
+ 
+    }
+ 
+    .div9{
+        margin-top: 10px;
+        margin-right: 0px;
+        margin-left: -10px;
+    }
+ 
+    .div9 img{
+        width: 70px;
+    }
+   
+}
+ 

@@ -1,0 +1,202 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+}
+
+/* Estilo da página */
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+}
+
+
+header img{
+width: 200px;
+margin: 30px auto auto 30px;
+margin-bottom: 30px;
+}
+
+nav.menu {
+  background-color: #333;
+  padding: 15px 0;
+}
+
+nav.menu ul {
+  list-style: none;
+  text-align: center;
+  position: relative;
+}
+
+nav.menu ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+nav.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+nav.menu ul li a:hover {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+nav.menu ul li.right {
+  position: absolute;
+  right: 130px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+nav.menu ul li.right_login {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+input[readonly] {
+  background-color: #f0f0f0; /* Cor cinza claro */
+  cursor: not-allowed; /* Cursor indicando que o campo não é editável */
+  border: 1px solid #ccc; /* Borda cinza clara para o campo */
+}
+
+.container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container h1{
+  text-align: center;
+  font-weight: 600;
+}
+
+h1, h2, h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Estilo do formulário */
+.form-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  padding-right: 30px; /* Espaço para o ícone do botão */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 3%;
+  top: 58%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="password"], 
+.form-group input[type="time"]{
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.btn-salvar {
+  background-color: #0047ab;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s, transform 0.2s;
+  font-weight: 600;
+  width: 460px;
+  margin-top: 20px;
+}
+
+.btn-salvar:hover {
+  background-color: #0047ab;
+  transform: scale(1.05);
+  font-weight: 600;
+}
+
+.link{
+  text-align: center;
+}
+
+.link2:hover{
+  color: purple;
+}
+
+
+nav.menu ul li.right {
+  position: absolute;
+  right: 150px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+nav.menu ul li.right_login {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-profissional, .btn-login {
+  background-color: #ff6347;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-profissional:hover, .btn-login:hover {
+  background-color: #ff4500;
+}select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="text"], input[type="date"], input[type="time"], input[type="number"], textarea, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}

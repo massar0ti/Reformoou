@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orçamento</title>
+  <link rel="stylesheet" href="css/editar.css">
+  <link rel="stylesheet" href="css/FONT.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Orçamento</h1>
+
+    <form id="editarForm">
+      <div class="form-group">
+        <label for="nome_completo">Nome prestador:</label>
+        <input type="text" id="nome_completo" name="nome_completo" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="documento">Documento:</label>
+        <input type="text" id="documento" name="documento" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="data_inicio">Data para iniciar:</label>
+        <input type="date" id="data_inicio" name="data_inicio">
+      </div>
+
+      <!-- Campo oculto para id_prestador e id_solicita -->
+      <input type="hidden" id="id_prestador" name="id_prestador">
+      <input type="hidden" id="id_solicita" name="id_solicita">
+
+      <button type="submit" class="btn-salvar">Salvar Alterações</button>
+      <br><br>
+      <a href="painel_user.html" style="color:red;">Cancelar Alterações</a>
+    </form>
+  </div>
+
+  <script>
+    // Função para obter parâmetros da URL
+    function getQueryParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    // Função para carregar as informações do orçamento
+    function carregarDadosOrcamento(idOrcamento) {
+      fetch(`http://localhost:3000/ver_orcamento/${idOrcamento}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            console.log('Dados do orçamento:', data.data); // Log dos dados do orçamento
+            document.getElementById('nome_completo').value = data.data.nome_completo || '';
+            document.getElementById('documento').value = data.data.documento || '';
+            document.getElementById('data_inicio').value = data.data.data_inicio || '';
+            document.getElementById('id_prestador').value = data.data.id_prestador || ''; // Preencher o id_prestador
+            document.getElementById('id_solicita').value = data.data.id_solicita || ''; // Preencher o id_solicita
+          } else {
+            console.error('Orçamento não encontrado');
+            alert('Orçamento não encontrado');
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao buscar informações do orçamento:', error);
+          alert('Erro ao buscar informações do orçamento');
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const idOrcamento = getQueryParameter('id_orcamento');
+      if (!idOrcamento) {
+        console.error('ID do orçamento não encontrado na URL');
+        alert('ID do orçamento não encontrado na URL');
+        return;
+      }
+
+      console.log(`ID do Orçamento: ${idOrcamento}`);
+
+      // Carregar dados do orçamento
+      carregarDadosOrcamento(idOrcamento);
+
+      // Manipular envio do formulário para atualizar os dados
+      const form = document.getElementById('editarForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Impede o envio padrão do formulário
+
+        const nomeCompleto = document.getElementById('nome_completo').value;
+        const documento = document.getElementById('documento').value;
+        const dataInicio = document.getElementById('data_inicio').value;
+        const idPrestador = document.getElementById('id_prestador').value;
+        const idSolicita = document.getElementById('id_solicita').value;
+
+        console.log('Dados do formulário:', {
+          nome_completo: nomeCompleto,
+          documento: documento,
+          data_inicio: dataInicio,
+          id_prestador: idPrestador,
+          id_solicita: idSolicita
+        }); // Log dos dados do formulário
+
+        // Enviar dados via fetch para a API
+        fetch(`http://localhost:3000/atualizar_orcamento/${idOrcamento}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            nome_completo: nomeCompleto,
+            documento: documento,
+            data_inicio: dataInicio,
+            id_prestador: idPrestador,
+            id_solicita: idSolicita
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              console.log('Orçamento e status atualizados com sucesso');
+              alert('Orçamento e status atualizados com sucesso');
+              window.location.href = 'painel_user.html?id_orcamento=' + idOrcamento;
+            } else {
+              console.error('Erro ao atualizar orçamento:', data.message);
+              alert('Erro ao atualizar orçamento: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Erro ao enviar dados:', error);
+            alert('Erro ao atualizar orçamento');
+          });
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel ADM</title>
+  <link rel="stylesheet" href="css/painel_adm.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .container {
+      position: relative;
+    }
+
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .styled-table th,
+    .styled-table td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .styled-table th {
+      background-color: #f4f4f4;
+    }
+
+    .styled-table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Estilos para o painel de edição */
+    #form-edicao {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      display: none;
+      width: 80%;
+      max-width: 600px;
+      box-sizing: border-box;
+    }
+
+    #form-edicao h2 {
+      margin-top: 0;
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 500;
+      display: none;
+    }
+
+    .btn_edita {
+      background-color: orange;
+    }
+
+    .btn_excluir {
+      background-color: red;
+    }
+
+    .btn_salvar {
+      background-color: green;
+    }
+
+    #form-edicao {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      display: none;
+      width: 80%;
+      max-width: 600px;
+      box-sizing: border-box;
+    }
+
+    #form-edicao h2 {
+      margin-top: 0;
+      color: #333;
+      text-align: center;
+    }
+
+    #form-edicao label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    #form-edicao input[type="text"],
+    #form-edicao input[type="email"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    select {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Painel ADM</h1>
+
+    <table class="styled-table" id="usuarios-tabela">
+      <thead>
+        <tr>
+          <th>Tipo cadastro</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Documento</th>
+          <th>Rua</th>
+          <th>Número</th>
+          <th>CEP</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Usuários serão inseridos aqui via JavaScript -->
+      </tbody>
+    </table>
+
+    <!-- Overlay para embaçar o fundo -->
+    <div id="overlay"></div>
+
+    <!-- Painel de edição -->
+    <div id="form-edicao">
+      <h2>Editar Usuário</h2>
+      <form id="form-editar-usuario">
+        <input type="hidden" id="edit-id" name="id">
+        <label for="edit-tipo_cadastro">Tipo usuario:</label>
+        <select id="edit-tipo_cadastro" name="tipo_cadastro" required>
+          <option value="C">Cliente</option>
+          <option value="P">Prestador</option>
+        </select>
+        <br>
+        <label for="edit-nome">Nome:</label>
+        <input type="text" id="edit-nome" name="nome_completo">
+        <br>
+        <label for="edit-email">Email:</label>
+        <input type="email" id="edit-email" name="email">
+        <br>
+        <label for="edit-documento">Documento:</label>
+        <input type="text" id="edit-documento" name="documento">
+        <br>
+        <label for="edit-rua">Rua:</label>
+        <input type="text" id="edit-rua" name="rua">
+        <br>
+        <label for="edit-numero">Número:</label>
+        <input type="text" id="edit-numero" name="numero">
+        <br>
+        <label for="edit-cep">CEP:</label>
+        <input type="text" id="edit-cep" name="cep">
+        <br>
+        <button class="btn_salvar" type="submit">Salvar</button>
+        <button class="btn_excluir" type="button" onclick="fecharFormulario()">Cancelar</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Função para carregar os usuários na tabela
+    function carregarUsuarios() {
+      $.get('http://localhost:3000/usuarios', function (data) {
+        const tbody = $('#usuarios-tabela tbody');
+        tbody.empty();
+        if (Array.isArray(data)) {
+          data.forEach(usuario => {
+            const tr = `<tr>
+          <td>${usuario.tipo_cadastro}</td>
+          <td>${usuario.nome_completo}</td>
+          <td>${usuario.email}</td>
+          <td>${usuario.documento}</td>
+          <td>${usuario.rua}</td>
+          <td>${usuario.numero}</td>
+          <td>${usuario.cep}</td>
+          <td>
+            <button class="btn_edita" onclick='editarUsuario(${usuario.id})'>Editar</button> | 
+            <button class="btn_excluir" onclick='excluirUsuario(${usuario.id})'>Excluir</button>
+          </td>
+        </tr>`;
+            tbody.append(tr);
+          });
+        } else {
+          tbody.append('<tr><td colspan="7">Nenhum usuário encontrado</td></tr>');
+        }
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error('Erro ao carregar usuários:', textStatus, errorThrown);
+      });
+    }
+
+    // Função para exibir o formulário de edição
+    function editarUsuario(id) {
+      $.post('http://localhost:3000/obter_usuario', { id: id }, function (data) {
+        $('#edit-id').val(data.id);
+        $('#edit-tipo_usuario').val(data.tipo_cadastro);
+        $('#edit-nome').val(data.nome_completo);
+        $('#edit-email').val(data.email);
+        $('#edit-documento').val(data.documento);
+        $('#edit-rua').val(data.rua);
+        $('#edit-numero').val(data.numero);
+        $('#edit-cep').val(data.cep);
+        $('#overlay').show();
+        $('#form-edicao').show();
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error('Erro ao obter dados do usuário:', textStatus, errorThrown);
+      });
+    }
+
+    function excluirUsuario(id) {
+      if (confirm('Tem certeza que deseja excluir?')) {
+        $.post('http://localhost:3000/excluir_usuario', { id: id }, function (response) {
+          alert(response);
+          carregarUsuarios(); // Atualiza a tabela após exclusão
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+          console.error('Erro ao excluir usuário:', textStatus, errorThrown);
+        });
+      }
+    }
+
+
+    // Função para salvar a edição do usuário
+    $('#form-editar-usuario').submit(function (e) {
+      e.preventDefault();
+      $.post('http://localhost:3000/atualizar_usuario', $(this).serialize(), function (response) {
+        alert(response);
+        $('#form-edicao').hide();
+        $('#overlay').hide();
+        carregarUsuarios(); // Atualiza a tabela após atualização
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error('Erro ao atualizar usuário:', textStatus, errorThrown);
+      });
+    });
+
+
+    // Função para fechar o formulário
+    function fecharFormulario() {
+      $('#form-edicao').hide();
+      $('#overlay').hide();
+    }
+
+    // Fecha o formulário se o overlay for clicado
+    $('#overlay').click(function () {
+      fecharFormulario();
+    });
+
+    // Carregar usuários ao carregar a página
+    $(document).ready(function () {
+      carregarUsuarios();
+    });
+  </script>
+</body>
+
+</html>

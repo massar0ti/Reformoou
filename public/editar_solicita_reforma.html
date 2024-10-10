@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Solicitação de Reforma</title>
+  <link rel="stylesheet" href="css/editar.css">
+  <link rel="stylesheet" href="css/FONT.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 style="font-size: 1.9em;">Editar solicitação de reforma</h1>
+
+    <form id="editarForm" style="margin-top: 35px;">
+      <div class="form-group">
+        <input type="hidden" name="id_solicita" id="id_solicita">
+        <label for="tipo_reforma">Local:</label>
+        <select id="tipo_reforma" name="tipo_reforma">
+          <option value="">Selecione</option>
+          <option value="casa">Casa</option>
+          <option value="apartamento">Apartamento</option>
+          <option value="salao">Salão Comercial</option>
+          <option value="outros">Outros</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="ambiente">Ambiente:</label>
+        <select id="ambiente" name="ambiente">
+          <option value="">Selecione</option>
+          <option value="banheiro">Banheiro</option>
+          <option value="cozinha">Cozinha</option>
+          <option value="corredor">Corredor</option>
+          <option value="escritorio">Escritório</option>
+          <option value="lavanderia">Lavanderia</option>
+          <option value="sala_estar">Sala de Estar</option>
+          <option value="sala_jantar">Sala de Jantar</option>
+          <option value="quarto">Quarto</option>
+          <option value="outros">Outro</option>
+          <option value="mais_de_um">Mais de um</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="ambiente_extra">Ambiente Extra:</label>
+        <input type="text" id="ambiente_extra" name="ambiente_extra">
+      </div>
+
+      <div class="form-group">
+        <label for="necessidade_obra">Necessidade de Obra:</label>
+        <input type="text" id="necessidade_obra" name="necessidade_obra">
+      </div>
+
+      <div class="form-group">
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao" name="descricao">
+      </div>
+
+      <div class="form-group">
+        <label for="data_inicio">Data de Início:</label>
+        <input type="date" id="data_inicio" name="data_inicio">
+      </div>
+
+      <div class="form-group">
+        <label for="data_termino">Data de Término:</label>
+        <input type="date" id="data_termino" name="data_termino">
+      </div>
+
+      <div>
+        <p>CEP: <input type="text" id="cep" name="cep" maxlength="9" placeholder="12345-678" oninput="aplicarMascaraCep(this)"></p>
+        <p>Rua: <input type="text" id="rua" name="rua" readonly></p>
+        <p>Número: <input type="text" name="numero"></p>
+        <p>Bairro: <input type="text" id="bairro" name="bairro" readonly></p>
+        <p>Cidade: <input type="text" id="cidade" name="cidade" readonly></p>
+        <p>Estado: <input type="text" id="estado" name="estado" readonly></p>
+      </div>
+
+      <button type="submit" class="btn-salvar">Salvar Alterações</button>
+      <br><br>
+      <a href="painel_user.html" style="color:red;">Cancelar Alterações</a>
+    </form>
+  </div>
+
+  <script>
+    function formatCEP(value) {
+      return value
+        .replace(/\D/g, '') // Remove caracteres não numéricos
+        .replace(/^(\d{5})(\d)/, '$1-$2') // Formata para 12345-678
+        .slice(0, 9); // Limita a 9 caracteres
+    }
+
+    function aplicarMascaraCep(input) {
+      input.value = formatCEP(input.value);
+    }
+
+    async function fetchAddress(cep) {
+      console.log('Buscando CEP:', cep);
+      if (cep.length === 9) {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        console.log('Resposta da API:', response);
+        if (response.ok) {
+          const address = await response.json();
+          console.log('Endereço retornado:', address);
+          if (!address.erro) {
+            document.getElementById('rua').value = address.logradouro;
+            document.getElementById('bairro').value = address.bairro;
+            document.getElementById('cidade').value = address.localidade;
+            document.getElementById('estado').value = address.uf;
+          } else {
+            alert('CEP não encontrado.');
+          }
+        } else {
+          alert('Erro ao buscar o CEP.');
+        }
+      }
+    }
+
+    // Captura parâmetros da URL
+    function getQueryParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    // Função para buscar dados da reforma
+    async function getReformaData(userId) {
+      try {
+        const reformaResponse = await fetch(`http://localhost:3000/get-servico/${userId}`);
+        const reformaResult = await reformaResponse.json();
+
+        if (reformaResult.status === 'success') {
+          const reforma = reformaResult.data;
+
+          // Função para mostrar ou ocultar campos
+          function toggleFieldVisibility(fieldId, value) {
+            const formGroup = document.getElementById(fieldId).closest('.form-group');
+            if (value === null || value === undefined || value === '') {
+              formGroup.style.display = 'none';
+            } else {
+              formGroup.style.display = 'block';
+              document.getElementById(fieldId).value = value;
+            }
+          }
+
+          // Atualiza os campos do formulário com os dados da reforma
+          toggleFieldVisibility('id_solicita', reforma.id_solicita);
+          toggleFieldVisibility('tipo_reforma', reforma.tipo_reforma);
+          toggleFieldVisibility('ambiente', reforma.ambiente);
+          toggleFieldVisibility('ambiente_extra', reforma.ambiente_extra);
+          toggleFieldVisibility('necessidade_obra', reforma.necessidade_obra);
+          toggleFieldVisibility('descricao', reforma.descricao);
+          toggleFieldVisibility('data_inicio', reforma.data_inicio);
+          toggleFieldVisibility('data_termino', reforma.data_termino);
+          toggleFieldVisibility('cep', reforma.cep);
+          toggleFieldVisibility('rua', reforma.rua); // Corrigido para usar o ID correto
+          toggleFieldVisibility('numero', reforma.numero); // Corrigido para usar o ID correto
+          toggleFieldVisibility('bairro', reforma.bairro);
+          toggleFieldVisibility('cidade', reforma.cidade);
+          toggleFieldVisibility('estado', reforma.estado);
+        } else {
+          console.log('Serviço não encontrado');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar informações:', error);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const userId = getQueryParameter('id');
+      if (!userId) {
+        console.error('ID do usuário não encontrado na URL');
+        return;
+      }
+
+      console.log(`ID do Usuário: ${userId}`);
+
+      // Carrega os dados da reforma
+      getReformaData(userId);
+
+      // Manipula o envio do formulário para atualizar os dados
+      const form = document.getElementById('editarForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Impede o envio padrão do formulário
+
+        // Coleta os valores do formulário
+        const id_solicita = document.getElementById('id_solicita').value;
+        const tipo_reforma = document.getElementById('tipo_reforma').value;
+        const ambiente = document.getElementById('ambiente').value;
+        const ambiente_extra = document.getElementById('ambiente_extra').value;
+        const necessidade_obra = document.getElementById('necessidade_obra').value;
+        const descricao = document.getElementById('descricao').value;
+        const data_inicio = document.getElementById('data_inicio').value;
+        const data_termino = document.getElementById('data_termino').value;
+        const cep = document.getElementById('cep').value;
+        const rua = document.getElementById('rua').value;
+        const numero = document.querySelector('input[name="numero"]').value; // Corrigido
+        const bairro = document.getElementById('bairro').value;
+        const cidade = document.getElementById('cidade').value;
+        const estado = document.getElementById('estado').value;
+
+        // Monta o objeto para atualização
+        const updateData = {
+          id_solicita,
+          tipo_reforma,
+          ambiente,
+          ambiente_extra,
+          necessidade_obra,
+          descricao,
+          data_inicio,
+          data_termino,
+          cep,
+          rua,
+          numero,
+          bairro,
+          cidade,
+          estado
+        };
+
+        // Envia a atualização para o servidor
+        try {
+          const response = await fetch(`http://localhost:3000/update-servico/${id_solicita}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateData)
+          });
+
+          const result = await response.json();
+          if (result.status === 'success') {
+            alert('Dados atualizados com sucesso!');
+            // Redireciona ou atualiza a página conforme necessário
+            window.location.href = "painel_user.html";
+          } else {
+            alert('Erro ao atualizar os dados: ' + result.message);
+          }
+        } catch (error) {
+          console.error('Erro ao atualizar os dados:', error);
+        }
+      });
+
+      // Adiciona o listener para buscar endereço ao preencher o CEP
+      const cepInput = document.getElementById('cep');
+      cepInput.addEventListener('input', (e) => {
+        aplicarMascaraCep(e.target);
+        fetchAddress(e.target.value);
+      });
+    });
+  </script>
+</body>
+
+</html>

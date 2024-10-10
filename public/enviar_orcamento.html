@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitação de serviço</title>
+    <link rel="stylesheet" href="css/editar.css">
+    <link rel="stylesheet" href="css/FONT.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Solicitação de serviço</h1>
+
+        <form id="editarForm">
+            <div class="form-group">
+                <input type="hidden" name="id_solicita" id="id_solicita">
+                <input type="hidden" name="id_cliente" id="id_cliente">
+                <input type="hidden" name="" id="id_prestador">
+            </div>
+
+            <div class="form-group">
+                <label for="tipo_reforma">Tipo reforma:</label>
+                <input type="text" id="tipo_reforma" name="tipo_reforma" readonly>
+            </div>
+            <div class="form-group">
+                <label for="necessidade_obra">Especialidade:</label>
+                <input type="text" id="necessidade_obra" name="especialidade_nome" readonly>
+                <input type="hidden" id="especialidade_id" name="especialidade_id" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="ambiente">Ambiente:</label>
+                <input type="text" id="ambiente" name="ambiente" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="ambiente_extra">Ambiente Extra:</label>
+                <input type="text" id="ambiente_extra" name="ambiente_extra" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="prioridade">Para quando deseja começar o serviço:</label>
+                <input type="text" id="prioridade" name="prioridade" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="cep">CEP:</label>
+                <input type="text" id="cep" name="cep" placeholder="Digite o CEP" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="rua">Rua:</label>
+                <input type="text" id="rua" name="rua" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="numero">Número:</label>
+                <input type="text" id="numero" name="numero" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" name="cidade" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="bairro">Bairro:</label>
+                <input type="text" id="bairro" name="bairro" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <input type="text" id="estado" name="estado" readonly>
+            </div>
+            <hr>
+            <br>
+
+            <div class="form-group">
+                <label for="valor">Valor total do serviço:</label>
+                <input type="text" id="valor" name="valor" placeholder="R$ 0,00" onblur="formatarValor(this)">
+            </div>
+
+            <button type="submit" class="btn-salvar">Salvar Alterações</button>
+            <br><br>
+            <a href="painel_prestador.html" style="color:red;">Cancelar Alterações</a>
+        </form>
+    </div>
+
+    <script>
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const id_prestador = getQueryParameter('id');
+
+            if (id_prestador) {
+                await getReformaData(id_prestador);
+            }
+
+            if (id_prestador) {
+                document.getElementById('id_prestador').value = id_prestador;
+            } else {
+                console.error('id_prestador não encontrado no cookie.');
+            }
+        });
+
+        async function getReformaData(id_solicita) {
+            try {
+                const response = await fetch(`http://localhost:3000/get-servico-prestador/${id_solicita}`);
+                const result = await response.json();
+
+                if (response.ok && result.status === 'success') {
+                    const reforma = result.data[0];
+                    if (reforma) {
+                        document.getElementById('id_solicita').value = reforma.id_solicita || '';
+                        document.getElementById('id_cliente').value = reforma.id_cliente || '';
+                        document.getElementById('tipo_reforma').value = reforma.tipo_reforma || '';
+                        document.getElementById('especialidade_id').value = reforma.especialidade_id || '';
+                        document.getElementById('necessidade_obra').value = reforma.desc_espec || '';
+                        document.getElementById('ambiente').value = reforma.ambiente || '';
+                        document.getElementById('ambiente_extra').value = reforma.ambiente_extra || '';
+                        document.getElementById('prioridade').value = reforma.descricao_prioridade || '';
+                        document.getElementById('cep').value = reforma.cep || '';
+                        document.getElementById('rua').value = reforma.rua || '';
+                        document.getElementById('numero').value = reforma.numero || '';
+                        document.getElementById('bairro').value = reforma.bairro || '';
+                        document.getElementById('cidade').value = reforma.cidade || '';
+                        document.getElementById('estado').value = reforma.estado || '';
+                    } else {
+                        console.error('Objeto reforma não encontrado.');
+                    }
+                } else {
+                    console.error('Erro na resposta da API:', result.message);
+                }
+            } catch (error) {
+                console.error('Erro ao buscar informações:', error);
+            }
+        }
+
+        function formatarValor(elemento) {
+    let valor = elemento.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+    if (valor) {
+        valor = (valor / 100).toFixed(2).replace('.', ','); // Divide por 100 e formata para 2 casas decimais
+        valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); // Adiciona o separador de milhar
+        elemento.value = `R$ ${valor}`; // Adiciona o símbolo de R$
+    } else {
+        elemento.value = ''; // Limpa o campo se não houver valor
+    }
+}
+
+// Se você quiser lidar com o envio do formulário, é importante remover a formatação antes de enviar
+function obterValorSemMascara() {
+    const valorInput = document.getElementById('valor').value;
+    return valorInput.replace(/[^0-9]/g, ''); // Retorna apenas os números
+}
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Função para formatar o valor em moeda
+            function formatCurrency(value) {
+                value = value.replace(/\D/g, '');
+                value = (value / 100).toFixed(2).replace(".", ",");
+                return `R$ ${value}`;
+            }
+
+            // Adicionando evento de input para formatação de valor
+            const valorInput = document.getElementById('valor');
+            if (valorInput) {
+                valorInput.addEventListener('input', function (event) {
+                    let input = event.target;
+                    let value = input.value;
+                    value = value.replace(/\D/g, '');
+                    input.value = formatCurrency(value);
+                });
+            } else {
+                console.error('Elemento com ID "valor" não encontrado.');
+            }
+
+            // Evento de submit no formulário
+            const form = document.getElementById('editarForm');
+            if (form) {
+                form.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+
+                    // Coletando valores dos inputs
+                    const id_solicita = document.getElementById('id_solicita').value;
+                    const id_cliente = document.getElementById('id_cliente').value;
+                    const id_prestador = document.getElementById('id_prestador').value;
+                    const valor = document.getElementById('valor').value
+                        .replace(/R\$ /, '')
+                        .replace(/\./g, '')
+                        .replace(/,/g, '.');
+
+                    const dadosOrcamento = {
+                        id_solicita,
+                        id_cliente,
+                        id_prestador,
+                        valor
+                    };
+
+                    try {
+                        // Fazendo a requisição para o backend
+                        const response = await fetch('/enviar_orcamento', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(dadosOrcamento),
+                        });
+
+                        // Verificando a resposta
+                        if (!response.ok) {
+                            throw new Error(`Erro na resposta do servidor: ${response.statusText}`);
+                        }
+
+                        const result = await response.json();
+
+                        // Tratamento da resposta do backend
+                        if (result.status === 'success') {
+                            alert('Orçamento enviado com sucesso!');
+                            // Redirecionar para a página desejada após sucesso
+                            window.location.href = 'painel_prestador.html';
+                        } else {
+                            alert('Erro ao enviar orçamento: ' + result.message);
+                        }
+                    } catch (error) {
+                        console.error('Erro ao enviar orçamento:', error);
+                        alert('Ocorreu um erro ao enviar o orçamento. Verifique a conexão e tente novamente.');
+                    }
+                });
+            } else {
+                console.error('Elemento com ID "editarForm" não encontrado.');
+            }
+        });
+    </script>
+</body>
+
+</html>

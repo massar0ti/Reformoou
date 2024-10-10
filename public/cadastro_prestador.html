@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Cliente</title>
+    <link rel="stylesheet" href="css/cadastra_cliente.css">
+    <link rel="stylesheet" href="css/FONT.css">
+    <style>
+        .invalid {
+            color: red;
+        }
+
+        .valid {
+            color: green;
+        }
+
+        .checkbox_semana {
+            display: none;
+            /* Inicialmente oculta */
+            margin-top: 20px;
+        }
+
+        .container {
+            width: 530px;
+            margin: -15px -10px -10px;
+            position: relative;
+            padding: 10px 30px 10px 10px;
+        }
+
+        #input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .options-list {
+            position: absolute;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-top: none;
+            max-height: 150px;
+            overflow-y: auto;
+            background: white;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            z-index: 1000;
+        }
+
+        .options-list li {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .options-list li:hover {
+            background-color: #eee;
+        }
+
+
+
+        .btn-solicitar {
+            background-color: #0047ab;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .btn-solicitar:hover {
+            background-color: #0047ab;
+        }
+
+        .valid {
+            color: green;
+        }
+
+        .invalid {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="cabecalho">
+        <nav class="cabecalho-titulo">
+            <a href="index.html"><img src="imgnovas/Reformoou4.png" alt="Logo Reformoou" class="logo-reformoou"></a>
+        </nav>
+    </header>
+
+    <h1 style="margin-bottom: 30px; font-weight: 300; margin-top: -130px;">Vamos criar sua conta de<br> <span
+            style="font-weight: 600; font-size: 1.3em;">prestador</span></h1>
+    <fieldset>
+        <form id="cadastroForm" action="http://localhost:3000/processa_cadastro_prestador" method="post"
+            onsubmit="return validarFormulario()">
+            <p>Sou:
+                <select id="tipo_cadastro" name="tipo_cadastro" required onchange="ajustarCampoDocumento()">
+                    <option value="">Selecione</option>
+                    <option value="PF">Pessoa física</option>
+                    <option value="PJ">Pessoa jurídica</option>
+                </select>
+            </p>
+            <div id="campoNome">
+                <p>Nome completo: <input type="text" name="nome_completo" required></p>
+            </div>
+            <p>Email: <input type="text" name="email" required></p>
+            <p>Telefone: <input type="text" name="telefone" oninput="aplicarMascaraTelefone(this)" maxlength="15"
+                    required></p>
+            <p id="campoDocumento" style="display: none;"></p>
+            <button type="button" class="btn-solicitar" onclick="verificarDocumento()">Próxima etapa</button>
+
+            <div id="enderecoCampos" style="display:none;">
+                <p>CEP: <input type="text" id="cep" name="cep" maxlength="9" oninput="aplicarMascaraCEP(this)"
+                        placeholder="12345-678"></p>
+                <p>Rua: <input type="text" id="rua" name="rua" readonly></p>
+                <p>Número: <input type="text" name="numero"></p>
+                <p>Bairro: <input type="text" id="bairro" name="bairro" readonly></p>
+                <p>Cidade: <input type="text" id="cidade" name="cidade" readonly></p>
+                <p>Estado: <input type="text" id="estado" name="estado" readonly></p>
+                <div>
+
+                    <button type="button" class="btn-solicitar" id="toggleButton">Próxima etapa</button>
+
+                    <div id="formContent" style="display: none;">
+                        <p>Tipo de serviço que você quer realizar:</p>
+                        <div class="container">
+                            <input type="text" id="input_espec" placeholder="Digite para filtrar..." autocomplete="off" />
+                            <ul id="options" class="options-list"></ul>
+                            <ul id="selected-options" class="selected-options-list"></ul>
+                        </div>
+                        <input type="hidden" id="id_espec_hidden" name="id_espec">
+                    
+
+
+                        <p>Disponibilidade para trabalhar:</p>
+                        <select name="disponibilidade" id="disponibilidade">
+                            <option value="">Selecione</option>
+                            <option value="todos os dias">Todos os dias</option>
+                            <option value="Segunda a sexta">Segunda a sexta</option>
+                            <option value="Final de Semana">Finais de semana</option>
+                            <option value="Feriado">Feriados</option>
+                        </select>
+                        
+                        <p>
+                            Crie uma senha:
+                            <input type="password" id="senha" name="senha" oninput="validarSenha(this)">
+                        </p>
+
+                        <ul id="criteria" class="criteria">
+                            <li id="minimo-caracteres" class="invalid">Mínimo de 8 dígitos</li>
+                            <li id="caracter-especial" class="invalid">No mínimo 1 caractere especial</li>
+                            <li id="caracter-maiusculo" class="invalid">Pelo menos 1 caractere maiúsculo</li>
+                            <li id="caracter-numero" class="invalid">Pelo menos 1 número</li>
+                        </ul>
+
+                        <button type="submit" class="btn-solicitar">Enviar</button>
+                    </div>
+                    <p id="resultado"></p>
+    </fieldset>
+
+    <script>
+        function validarSenha(senha) {
+            const minCaracteres = document.getElementById('minimo-caracteres');
+            const caracterEspecial = document.getElementById('caracter-especial');
+            const caracterMaiusculo = document.getElementById('caracter-maiusculo');
+            const caracterNumero = document.getElementById('caracter-numero');
+
+            // Verificação do mínimo de caracteres
+            const senhaValida = senha.value.length >= 8;
+            minCaracteres.classList.toggle('invalid', !senhaValida);
+            minCaracteres.classList.toggle('valid', senhaValida);
+
+            // Verificação de caractere especial
+            const senhaTemEspecial = /[!@#$%^&*(),.?":{}|<>]/.test(senha.value);
+            caracterEspecial.classList.toggle('invalid', !senhaTemEspecial);
+            caracterEspecial.classList.toggle('valid', senhaTemEspecial);
+
+            // Verificação de caractere maiúsculo
+            const senhaTemMaiusculo = /[A-Z]/.test(senha.value);
+            caracterMaiusculo.classList.toggle('invalid', !senhaTemMaiusculo);
+            caracterMaiusculo.classList.toggle('valid', senhaTemMaiusculo);
+
+            // Verificação de número
+            const senhaTemNumero = /[0-9]/.test(senha.value);
+            caracterNumero.classList.toggle('invalid', !senhaTemNumero);
+            caracterNumero.classList.toggle('valid', senhaTemNumero);
+
+            // A senha é válida se atender a todos os critérios
+            return senhaValida && senhaTemEspecial && senhaTemMaiusculo && senhaTemNumero;
+        }
+
+        function aplicarMascaraCPF(cpf) {
+            cpf = cpf.replace(/\D/g, '');
+            if (cpf.length > 11) cpf = cpf.slice(0, 11);
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+            cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            return cpf;
+        }
+
+        function aplicarMascaraCNPJ(cnpj) {
+            cnpj = cnpj.replace(/\D/g, '');
+            if (cnpj.length > 14) cnpj = cnpj.slice(0, 14);
+            cnpj = cnpj.replace(/^(\d{2})(\d)/, '$1.$2');
+            cnpj = cnpj.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+            cnpj = cnpj.replace(/\.(\d{3})(\d)/, '.$1/$2');
+            cnpj = cnpj.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+            return cnpj;
+        }
+
+        function ajustarCampoDocumento() {
+            const campoDocumento = document.getElementById('campoDocumento');
+            const tipoPessoa = document.getElementById('tipo_cadastro').value;
+
+            campoDocumento.innerHTML = ''; // Limpa o conteúdo do campo
+            campoDocumento.style.display = 'block'; // Garante que o campo será exibido
+
+            if (tipoPessoa === "PF") {
+                // Cria o campo CPF
+                const labelCpf = document.createElement('label');
+                labelCpf.textContent = 'CPF: ';
+                const inputCpf = document.createElement('input');
+                inputCpf.type = 'text';
+                inputCpf.name = 'documento';
+                inputCpf.id = 'documento';
+                inputCpf.oninput = function () { this.value = aplicarMascaraCPF(this.value); };
+
+                // Adiciona ao DOM
+                campoDocumento.appendChild(labelCpf);
+                campoDocumento.appendChild(inputCpf);
+
+            } else if (tipoPessoa === "PJ") {
+                // Cria o campo CNPJ
+                const labelCnpj = document.createElement('label');
+                labelCnpj.textContent = 'CNPJ: ';
+                const inputCnpj = document.createElement('input');
+                inputCnpj.type = 'text';
+                inputCnpj.name = 'documento';
+                inputCnpj.id = 'documento';
+                inputCnpj.oninput = function () { this.value = aplicarMascaraCNPJ(this.value); };
+
+                // Adiciona ao DOM
+                campoDocumento.appendChild(labelCnpj);
+                campoDocumento.appendChild(inputCnpj);
+
+            } else {
+                campoDocumento.style.display = 'none';
+            }
+        }
+
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/\D/g, '');
+            if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+            let soma = 0;
+            for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
+            let resto = soma % 11;
+            let digito1 = resto < 2 ? 0 : 11 - resto;
+            if (digito1 !== parseInt(cpf.charAt(9))) return false;
+            soma = 0;
+            for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
+            resto = soma % 11;
+            let digito2 = resto < 2 ? 0 : 11 - resto;
+            return digito2 === parseInt(cpf.charAt(10));
+        }
+
+        function validarCNPJ(cnpj) {
+            cnpj = cnpj.replace(/\D/g, '');
+            if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
+            let tamanho = cnpj.length - 2;
+            let numeros = cnpj.substring(0, tamanho);
+            let digitos = cnpj.substring(tamanho);
+            let soma = 0;
+            let pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) {
+                soma += numeros.charAt(tamanho - i) * pos--;
+                if (pos < 2) pos = 9;
+            }
+            let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+            if (resultado != digitos.charAt(0)) return false;
+            tamanho = tamanho + 1;
+            numeros = cnpj.substring(0, tamanho);
+            soma = 0;
+            pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) {
+                soma += numeros.charAt(tamanho - i) * pos--;
+                if (pos < 2) pos = 9;
+            }
+            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+            return resultado == digitos.charAt(1);
+        }
+
+        function verificarDocumento() {
+            const tipoPessoa = document.getElementById('tipo_cadastro').value;
+            const documento = document.getElementById('documento').value;
+
+            if (tipoPessoa === "PF") {
+                if (!validarCPF(documento)) {
+                    alert("CPF inválido.");
+                    return;
+                }
+            } else if (tipoPessoa === "PJ") {
+                if (!validarCNPJ(documento)) {
+                    alert("CNPJ inválido.");
+                    return;
+                }
+            } else {
+                alert("Tipo de pessoa inválido.");
+                return;
+            }
+
+            document.getElementById('enderecoCampos').style.display = 'block';
+        }
+
+        function aplicarMascaraTelefone(telefone) {
+            telefone.value = telefone.value.replace(/\D/g, ''); // Remove tudo que não é número
+
+            if (telefone.value.length > 11) {
+                telefone.value = telefone.value.slice(0, 11); // Limita a 11 dígitos
+            }
+
+            // Aplica a máscara para celulares com 11 dígitos: (XX) XXXXX-XXXX
+            if (telefone.value.length === 11) {
+                telefone.value = telefone.value.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            }
+            // Aplica a máscara para telefones fixos com 10 dígitos: (XX) XXXX-XXXX
+            else if (telefone.value.length === 10) {
+                telefone.value = telefone.value.replace(/^(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+            }
+        }
+
+        function validarFormulario() {
+            const senha = document.getElementById('senha').value;
+            const tipoPessoa = document.getElementById('tipo_cadastro').value;
+            const documento = document.getElementById('documento').value;
+
+            if (!validarSenha(document.getElementById('senha'))) {
+                return false;
+            }
+
+            if (tipoPessoa === "PF" && !validarCPF(documento)) {
+                alert("CPF inválido.");
+                return false;
+            } else if (tipoPessoa === "PJ" && !validarCNPJ(documento)) {
+                alert("CNPJ inválido.");
+                return false;
+            }
+
+            return true;
+        }
+
+        document.getElementById('cep').addEventListener('input', function () {
+            let cep = this.value.replace(/\D/g, '');
+            if (cep.length === 8) {
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.erro) {
+                            document.getElementById('resultado').textContent = "CEP não encontrado.";
+                        } else {
+                            document.getElementById('rua').value = data.logradouro;
+                            document.getElementById('bairro').value = data.bairro;
+                            document.getElementById('cidade').value = data.localidade;
+                            document.getElementById('estado').value = data.uf;
+                            document.getElementById('resultado').textContent = "";
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        document.getElementById('resultado').textContent = "Erro ao buscar endereço.";
+                    });
+            }
+        });
+
+
+        document.getElementById('disponibilidade').addEventListener('change', function () {
+            var selecionado = this.value;
+            var checkboxDiv = document.getElementById('checkbox_semana');
+
+            if (selecionado === 'especifique') {
+                checkboxDiv.style.display = 'block'; // Exibe a div
+            } else {
+                checkboxDiv.style.display = 'none'; // Oculta a div
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('input_espec'); // Aponte para o campo de entrada correto
+    const optionsList = document.getElementById('options'); // Aponte para a lista de opções
+    const hiddenInput = document.getElementById('id_espec_hidden'); // Aponte para o campo oculto
+
+    const originalOptions = [
+        { value: '', text: 'Selecione' },
+        { value: '1', text: 'Eletricista' },
+        { value: '2', text: 'Pedreiro' },
+        { value: '3', text: 'Engenheiro' },
+        { value: '4', text: 'Pintor' },
+        { value: '5', text: 'Marceneiro' },
+        { value: '6', text: 'Vidraceiro' },
+        { value: '7', text: 'Encanador' },
+        { value: '8', text: 'Carpinteiro' },
+        { value: '9', text: 'Azulejista' },
+        { value: '10', text: 'Gesseiro' },
+        { value: '11', text: 'Serralheiro' },
+        { value: '12', text: 'Engenheiro Civil' },
+        { value: '13', text: 'Jardineiro' },
+        { value: '14', text: 'Instalador de drywall' },
+        { value: '15', text: 'Montador de móveis' },
+        { value: '16', text: 'Instalador de ar condicionado' },
+        { value: '17', text: 'Consultor de interiores' },
+        { value: '18', text: 'Decorador' }
+    ];
+
+    function updateOptions(filter = '') {
+        const filteredOptions = originalOptions.filter(option =>
+            option.text.toLowerCase().includes(filter.toLowerCase())
+        );
+
+        // Limpa as opções atuais
+        optionsList.innerHTML = '';
+
+        // Adiciona as opções filtradas
+        filteredOptions.forEach(option => {
+            const li = document.createElement('li');
+            li.textContent = option.text;
+            li.dataset.value = option.value;
+            li.addEventListener('click', function () {
+                input.value = this.textContent; // Preenche o input com a opção selecionada
+                hiddenInput.value = this.dataset.value; // Armazena o valor no campo oculto
+                optionsList.style.display = 'none'; // Esconde a lista de opções
+            });
+            optionsList.appendChild(li);
+        });
+
+        // Exibe ou oculta a lista de opções com base no filtro
+        optionsList.style.display = filteredOptions.length ? 'block' : 'none';
+    }
+
+    input.addEventListener('input', function () {
+        updateOptions(input.value);
+    });
+
+    input.addEventListener('focus', function () {
+        updateOptions(); // Mostra todas as opções quando o input é focado
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.container')) {
+            optionsList.style.display = 'none'; // Esconde as opções se clicar fora
+        }
+    });
+
+    // Mostra ou esconde o conteúdo do formulário
+    document.getElementById('toggleButton').addEventListener('click', function () {
+        var formContent = document.getElementById('formContent');
+        formContent.style.display = formContent.style.display === 'none' || formContent.style.display === '' ? 'block' : 'none';
+    });
+});
+
+
+
+
+    </script>
+</body>
+
+</html>

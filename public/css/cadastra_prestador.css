@@ -1,0 +1,123 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  
+  nav.menu {
+    background-color: #333;
+    padding: 10px 0;
+  }
+  
+  nav.menu ul {
+    list-style: none;
+    text-align: center;
+  }
+  
+  nav.menu ul li {
+    display: inline;
+    margin: 0 15px;
+  }
+  
+  nav.menu ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  nav.menu ul li a:hover {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  fieldset {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    width: 40%;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+  
+  p {
+    margin-bottom: 15px;
+  }
+  
+  input[type="text"],
+  input[type="date"],
+  input[type="time"],
+  input[type="password"],
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  input[type="time"]:focus,
+  select:focus {
+    border-color: #333;
+    outline: none;
+  }
+  
+  .btn-solicitar {
+    background-color: #ff4500;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  .btn-solicitar:hover {
+    background-color: #ff4500;
+  }     
+  nav.menu ul li.right {
+    position: absolute;
+    right: 150px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  nav.menu ul li.right_login {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .btn-profissional, .btn-login {
+    background-color: #ff6347;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .btn-profissional:hover, .btn-login:hover {
+    background-color: #ff4500;
+  }
+

@@ -1,0 +1,566 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilo da página */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  max-width:1200px;
+  margin: auto;
+}
+.logo-reformoou{
+  width: 200px;
+  margin-right: 1100px;
+}
+
+nav.menu {
+  background-color: #333;
+  padding: 15px 0;
+}
+
+nav.menu ul {
+  list-style: none;
+  text-align: center;
+  position: relative;
+}
+
+nav.menu ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+nav.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+nav.menu ul li a:hover {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+nav.menu ul li.right {
+  position: absolute;
+  right: 130px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+nav.menu ul li.right_login {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+h1, h2, h3 {
+  color: #333;
+}
+
+.section {
+  margin-top: 20px; /* Espaço entre as seções */
+  display: flex;
+  gap: 20px;
+}
+
+.section .dados,
+.section .endereco {
+  flex: 1;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 2.5px 2.5px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 300px; /* Largura máxima dos cards */
+  margin-bottom: 20px;
+  flex: 1; /* Faz com que todos os cards cresçam igualmente */
+  min-height: 300px; /* Garante que todos os cards tenham a mesma altura mínima */
+  min-width: 300px;
+}
+
+section.dados .card,
+section.endereco .card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+  border-radius: 0px 20px 20px 0px;
+  border-left: 4px solid #0047ab;
+
+}
+
+.card button {
+  background-color: #0047ab;
+  color: white;
+  border: none;
+  /* padding: 8px 16px; */
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 15px;
+  width: 250px;
+  height:37px;
+  align-self: center; /* Centraliza o botão horizontalmente no card */
+  text-decoration: none;
+  color: #0047ab;
+  background: transparent;
+  cursor: pointer;
+  transition: ease-out 0.5s;
+  border: 2px solid #0047ab;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 0 #0047ab;
+  font-weight: bold;
+  text-align: center;
+}
+
+.card button:hover {
+  color: white;
+  box-shadow: inset 0 -100px 0 0 #0047ab;
+  font-weight: bold;
+}
+
+.card button:active{
+  transform: scale(0.9);
+}
+
+.card-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.categorias {
+  margin-top: 20px;
+}
+
+.categoria {
+  margin-bottom: 20px;
+}
+
+.categoria h3 {
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.categoria .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start; /* Alinha os cards à esquerda */
+}
+
+.categoria .card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 2.5px 2.5px 8px rgba(0, 0, 0, 0.2);
+  width: 100%; /* Para ocupar toda a largura disponível */
+  max-width: calc(20% - 20px); /* Largura máxima dos cards */
+  margin-bottom: 20px; /* Espaço entre os cards */
+  border-radius: 0px 20px 20px 0px;
+  border-left: 4px solid #0047ab;
+}
+
+.categoria .card h3 {
+  margin-bottom: 10px;
+}
+
+.categoria .card p {
+  text-align: left; /* Alinha o texto dos parágrafos à esquerda */
+  margin-bottom: 5px; /* Espaçamento entre os parágrafos */
+}
+
+.categoria .card button {
+  background-color: #0047ab;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #0047ab;
+  background: transparent;
+  cursor: pointer;
+  transition: ease-out 0.5s;
+  border: 2px solid #0047ab;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 0 #0047ab;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  flex-direction: column; /* Garante que os itens fiquem empilhados */
+}
+
+.categoria .card button:hover {
+  color: white;
+  box-shadow: inset 0 -100px 0 0 #0047ab;
+  font-weight: bold;
+}
+
+.categoria .card button:active{
+  transform: scale(0.9);
+}
+
+
+nav.menu ul li.right {
+  position: absolute;
+  right: 150px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+nav.menu ul li.right_login {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-profissional, .btn-login {
+  background-color: #0047ab;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-profissional:hover, .btn-login:hover {
+  background-color: #0047ab;
+}
+
+.perfil_wrapper {
+  width: 100vw; /* Largura total da viewport */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw; /* Alinha à esquerda */
+  margin-right: -50vw; /* Alinha à direita */
+  background-color: #0047ab;
+  box-shadow: 0px 3px 5px grey;
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  color: white;
+  padding: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.informacoes_perfil h1{
+  font-size: 3em;
+  color: rgb(255, 255, 255);
+}
+
+.informacoes_perfil p{
+  font-size: 1.2em;
+  color: rgb(255, 255, 255);
+}
+
+.informacoes_perfil a{
+  text-decoration: none;
+  color: white;
+}
+
+.foto_cliente{
+  height: 165%;
+  width: 165%;
+}
+
+.suas_informacoes{
+  display: flex;
+  margin-top: 25px;
+  gap: 50px;
+}
+
+.suas_informacoes h2{
+  margin-bottom: 8px;
+}
+
+.enquadramento{
+  width: 800px;
+  height: 200px;
+}
+
+.titulo_informacoes{
+  margin-top: 35px;
+  font-size: 2.3em;
+}
+
+.dados, .endereco{
+  border-radius: 10px 20px 30px 40px;
+}
+
+h3{
+  font-size: 24px;
+  margin-bottom: -10px;
+  margin-top: 35px;
+}
+
+/* From Uiverse.io by WhiteNervosa */ 
+.sair_conta {
+  font-size: 18px;
+  color: #a8a8a8;
+  font-family: inherit;
+  font-weight: 400;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  text-transform: uppercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Adiciona um espaçamento entre o texto e a imagem */
+}
+
+.sair_conta:focus,
+.sair_conta:hover {
+  color: white;
+}
+
+.sair_conta:focus:after,
+.sair_conta:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.sair_conta:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: white;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
+}
+
+.logo_logout {
+  height: 20px;
+  transition: 400ms;
+}
+
+.sair_conta:hover .logo_logout,
+.sair_conta:focus .logo_logout {
+  content: url('../imgnovas/logoutbranco.png') /* Imagem vermelha para hover */
+}
+
+.cabecalho{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0px;
+  width: 100vw; /* Largura total da viewport */
+  height: 185px;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw; /* Alinha à esquerda */
+  margin-right: -50vw; /* Alinha à direita */
+  background-color: #0047ab;
+  box-shadow: 0px 3px 5px grey;
+  
+}
+
+.cabecalho h1{
+  font-size: 2.7em;
+  color: white;
+  text-shadow: 2px 2px 5px rgb(83, 83, 83);
+  padding: 30px;
+}
+
+.cabecalho-principal{
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+.cabecalho-titulo{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 70px;
+}
+
+.logo-reformoou{
+  width: 150px;
+  margin-right: 620px;
+}
+
+.prestador {
+  position: relative;
+  display: flex;
+  /* margin-top: 30px; */
+  padding: 15px 90px;
+  text-align: center;
+  font-size: 0.9em;
+  letter-spacing: 1.3px;
+  text-decoration: none;
+  color: #0047ab;
+  background: transparent;
+  cursor: pointer;
+  transition: ease-out 0.5s;
+  border: 2px solid #0047ab;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 0 #0047ab;
+  font-weight: bold;
+  justify-content: center;
+  text-wrap: nowrap;
+}
+
+.prestador:hover {
+  color: white;
+  box-shadow: inset 0 -100px 0 0 #0047ab;
+  font-weight: bold;
+}
+
+.prestador:active {
+  transform: scale(0.9);
+}
+
+.logo-conta{
+  width: 40px;
+  margin: 0px -170px 0px -50px;
+}
+
+.figure_header a{
+  margin: 0px;
+}
+
+/* Estilos do ícone hambúrguer */
+.burger {
+  position: relative;
+  width: 40px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 10; /* Certifica que o hambúrguer fica acima do menu lateral */
+  padding-right: 30px;
+}
+
+.burger span {
+  display: block;
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background: rgb(255, 255, 255); /* Cor preta */
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  transition: .25s ease-in-out;
+}
+
+.burger span:nth-of-type(1) {
+  top: 0px;
+}
+
+.burger span:nth-of-type(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.burger span:nth-of-type(3) {
+  top: 100%;
+  transform: translateY(-100%);
+}
+
+/* Animação do ícone em X quando ativo */
+.burger.active span:nth-of-type(1) {
+  transform: rotate(45deg);
+  top: 10px;
+}
+
+.burger.active span:nth-of-type(2) {
+  opacity: 0;
+}
+
+.burger.active span:nth-of-type(3) {
+  transform: rotate(-45deg);
+  top: 10px;
+}
+
+/* Estilos do menu lateral (retângulo branco) */
+.menu-lateral {
+  position: absolute;
+  top: 50px; /* A altura vai depender do seu layout */
+  left: calc(100% + 5px); /* Fica 5px à esquerda do hambúrguer */
+  /* width: 200px;
+  height: 100px; */
+  background-color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Suavidade ao abrir/fechar */
+  opacity: 0; /* Escondido inicialmente */
+  transform: translateX(-100%); /* Escondido para a esquerda inicialmente */
+  padding: 25px 40px;
+  z-index: 9; /* Abaixo do hambúrguer */
+  border-radius: 10px;
+}
+
+.menu-lateral ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 50px;
+}
+
+.menu-lateral ul li {
+  /* padding: 8px 0; */
+}
+
+.menu-lateral ul li a {
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 400;
+  
+}
+
+.menu-lateral ul li a:hover {
+  color: #0047ab;
+  font-weight: 700;
+}
+
+/* Mostrar o retângulo quando a classe 'show' for adicionada */
+.menu-lateral.show {
+  opacity: 1;
+  transform: translateX(-160%); /* Ajusta para 5px à esquerda do hambúrguer */
+}
+
+#nome{
+  margin-left: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0047ab

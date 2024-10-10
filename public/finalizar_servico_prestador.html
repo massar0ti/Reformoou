@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalizar serviço</title>
+  <link rel="stylesheet" href="css/editar.css">
+  <link rel="stylesheet" href="css/FONT.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Finalizar serviço</h1>
+
+    <form id="finalizarForm">
+      <!-- Campo oculto para armazenar o id_solicita -->
+      <input type="hidden" id="id_solicita" name="id_solicita">
+
+      <div class="form-group">
+        <label for="servico_finalizado">Serviço foi finalizado?</label>
+        <select id="servico_finalizado" name="servico_finalizado">
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="servico_certo">O serviço estava igual a solicitação?</label>
+        <select id="servico_certo" name="servico_certo">
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="avalia_servico">Avalie o serviço:</label>
+        <select id="avalia_servico" name="avalia_servico">
+          <option value="">Selecione</option>
+          <option value="1">1 - Muito ruim</option>
+          <option value="2">2 - Ruim</option>
+          <option value="3">3 - Mediano</option>
+          <option value="4">4 - Bom</option>
+          <option value="5">5 - Excelente</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="comentario">Algum comentário:</label>
+        <input type="text" id="comentario" name="comentario" placeholder="Faça um comentário">
+      </div>
+
+      <button type="submit" class="btn-salvar">Salvar Alterações</button>
+      <br><br>
+      <a href="painel_prestador.html" style="color:red;">Cancelar Alterações</a>
+    </form>
+  </div>
+
+  <script>
+    // Função para obter o parâmetro id_solicita da URL
+    function getIdSolicitaFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('id_solicita');
+    }
+
+    async function getUserId() {
+      try {
+        const userId = localStorage.getItem('userId');
+        console.log(`O usuário é ${userId}`);
+        return userId || null;
+      } catch (error) {
+        console.error('Erro ao obter ID do usuário:', error);
+        return null;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const id_solicita = getIdSolicitaFromURL(); // Obtém o id_solicita da URL
+      if (id_solicita) {
+        document.getElementById('id_solicita').value = id_solicita; // Define o valor no campo oculto
+      }
+    });
+
+    document.getElementById('finalizarForm').addEventListener('submit', async (event) => {
+      event.preventDefault(); // Evita o envio padrão do formulário
+
+      const userId = await getUserId(); // Obtém o userId
+
+      if (!userId) {
+        alert('ID do usuário não encontrado. Por favor, faça login novamente.');
+        return;
+      }
+
+      const formData = new FormData(event.target);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      try {
+        const response = await fetch(`http://localhost:3000/avaliacao_comentario_cliente/${userId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') {
+          alert('Informações salvas com sucesso!');
+          window.location.href = 'painel_prestador.html';
+        } else {
+          alert('Erro ao salvar as informações.');
+        }
+      } catch (error) {
+        console.error('Erro ao enviar dados:', error);
+        alert('Erro ao enviar dados.');
+      }
+    });
+  </script>
+</body>
+
+</html>

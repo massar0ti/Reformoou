@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do cliente - levaCerto</title>
+  <link rel="stylesheet" href="css/painel_user.css">
+  <link rel="stylesheet" href="css/FONT.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="perfil_wrapper">
+      <div class="perfil">
+          <figure><img src="imgnovas/fotoperfilcliente.jfif" alt="Sua foto de perfil"  class="foto_cliente"></figure>
+          <div class="informacoes_perfil">
+            <h1>Vitor Massaroti</h1>
+            <a href="index.html">clique aqui para sair da sua conta</a>
+          </div>
+      </div>
+    </div>
+    
+
+
+    <article class="suas_informacoes">
+      <section class="dados enquadramento">
+        <h2>Informações Pessoais</h2>
+        <div class="card">
+          <p id="documento">CNPJ: </p>
+          <p id="telefone">Telefone: </p>
+          <button onclick="editarInformacoesPessoais()">Editar</button>
+        </div>
+      </section>
+      
+      <section class="endereco enquadramento">
+        <h2>Endereço</h2>
+        <div class="card">
+          <h3 id="rua">Rua: </h3>
+          <p id="numero">Número: </p>
+          <p id="cidade">Cidade: </p>
+          <p id="estado">Estado: </p>
+          <button onclick="editarEndereco()">Editar</button>
+        </div>
+      </section>
+    </article>
+
+
+
+    
+    <div id="solicitacoes_reforma" class="categorias"></div>
+
+    <h2 id="txt_orcamento" style="display: none;">Orçamentos recebidos!</h2>
+<div id="orcamentos" class="categorias"></div>
+
+    
+    <div id="servicos_concluir" class="categorias"></div>
+
+    <div id="servico_finalizado" class="categorias">
+    </div>
+    
+  </div>
+
+  <script>
+    async function getUserId() {
+      try {
+        const userId = localStorage.getItem('userId');
+        return userId || null;
+      } catch (error) {
+        console.error('Erro ao obter ID do usuário:', error);
+        return null;
+      }
+    }
+
+    function formatarDocumento(documento) {
+      if (documento.length === 11) {
+        return documento.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+      } else if (documento.length === 14) {
+        return documento.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+      }
+      return documento;
+    }
+
+    function createElementWithText(tag, text) {
+      const element = document.createElement(tag);
+      element.textContent = text;
+      return element;
+    }
+
+    function updateElement(id, content) {
+      const element = document.getElementById(id);
+      if (element) {
+        if (content) {
+          element.innerHTML = content;
+          element.style.display = 'block';
+        } else {
+          element.style.display = 'none';
+        }
+      } else {
+        console.error(`Elemento com ID ${id} não encontrado`);
+      }
+    }
+
+    async function fetchAndUpdateData(userId) {
+      try {
+        // Fetch user data
+        const userResponse = await fetch(`http://localhost:3000/usuario/${userId}`);
+        const userResult = await userResponse.json();
+        if (userResult.status === 'success') {
+          const usuario = userResult.data;
+          document.getElementById('nome').textContent = `Nome: ${usuario.nome_completo}`;
+          document.getElementById('documento').textContent = `CNPJ: ${formatarDocumento(usuario.documento)}`;
+          document.getElementById('telefone').textContent = `Telefone: ${usuario.telefone}`;
+          document.getElementById('rua').textContent = `Rua: ${usuario.rua}`;
+          document.getElementById('numero').textContent = `Número: ${usuario.numero}`;
+          document.getElementById('cidade').textContent = `Cidade: ${usuario.cidade}`;
+          document.getElementById('estado').textContent = `Estado: ${usuario.estado}`;
+        }
+
+        // Fetch service requests
+        const reformaResponse = await fetch(`http://localhost:3000/get-servico/${userId}`);
+        const reformaResult = await reformaResponse.json();
+        if (reformaResult.status === 'success') {
+          const reforma = reformaResult.data;
+          const info = `
+          <h2>Solicitações de reforma!</h2>
+          <div class="categorias">
+          <div class="categoria">
+          <div class="card-container">
+            <div class="card">
+            <p>${reforma.tipo_reforma ? `Tipo de lugar: ${reforma.tipo_reforma}` : ''}</p>
+            <p>${reforma.ambiente ? `Ambiente: ${reforma.ambiente}` : ''}</p>
+            <p>${reforma.ambiente_extra ? `Ambiente Extra: ${reforma.ambiente_extra}` : ''}</p>
+            <p>${reforma.necessidade_obra ? `Necessidade de Obra: ${reforma.necessidade_obra}` : ''}</p>
+            <p>${reforma.atividade_salao ? `Atividade do Salão: ${reforma.atividade_salao}` : ''}</p>
+            <p>${reforma.descricao ? `Descrição: ${reforma.descricao}` : ''}</p>
+            <p>${reforma.descricao_reforma ? `Descrição da Reforma: ${reforma.descricao_reforma}` : ''}</p>
+            <p>${reforma.data_inicio ? `Data de Início: ${reforma.data_inicio}` : ''}</p>
+            <p>${reforma.data_termino ? `Data de Término: ${reforma.data_termino}` : ''}</p>
+            <p>${reforma.cep ? `CEP: ${reforma.cep}` : ''}</p>
+            <p>${reforma.rua ? `Rua: ${reforma.rua}` : ''}</p>
+            <p>${reforma.numero ? `Número: ${reforma.numero}` : ''}</p>
+            <p>${reforma.cidade ? `Cidade: ${reforma.cidade}` : ''}</p>
+            <button type="button" onclick="editarReforma()">Editar reforma</button>
+            </div>
+          </div>
+        </div>
+      </div>
+          `;
+          updateElement('solicitacoes_reforma', info);
+        }
+
+        try {
+  const orcamentoResponse = await fetch(`http://localhost:3000/orcamento/${userId}`);
+  if (!orcamentoResponse.ok) {
+    throw new Error('Erro na requisição: ' + orcamentoResponse.statusText);
+  }
+
+  const orcamentoResult = await orcamentoResponse.json();
+  
+  if (orcamentoResult.status === 'success') {
+    const orcamentos = orcamentoResult.data;
+    if (orcamentos.length > 0) {
+      // Exibe o título e os orçamentos
+      document.getElementById('txt_orcamento').style.display = 'block';
+      
+      const orcamentoInfo = orcamentos.map(orcamento => `
+        <div class="categorias">
+          <div class="categoria">
+            <div class="card-container">
+              <div class="card">
+                <p>ID: ${orcamento.id_orcamento || 'Não especificado'}</p>
+                <p>ID do Prestador: ${orcamento.id_prestador || 'Não especificado'}</p>
+                <p>Nome do Prestador: ${orcamento.nome_completo || 'Não especificado'}</p>
+                <p>Valor: ${orcamento.valor || 'Não especificado'}</p>
+                <p>Orçamento Enviado: ${orcamento.dt_envio || 'Não especificado'}</p>
+                <button type="button" onclick="aceitarProposta(${orcamento.id_orcamento})">Ver proposta</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      
+      // Atualiza o conteúdo do elemento com ID 'orcamentos'
+      updateElement('orcamentos', orcamentoInfo);
+    } else {
+      // Oculta o título e limpa a área de orçamentos
+      document.getElementById('txt_orcamento').style.display = 'none';
+      updateElement('orcamentos', '<p>Sem orçamentos recebidos.</p>');
+    }
+  } else {
+    console.error('Erro: Status diferente de sucesso', orcamentoResult.status);
+  }
+} catch (error) {
+  console.error('Erro ao buscar orçamentos:', error);
+}
+
+// Função para atualizar o conteúdo de um elemento
+function updateElement(elementId, content) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.innerHTML = content;
+  }
+}
+ 
+  
+
+        // Fetch finalized services
+        const finalizarResponse = await fetch(`http://localhost:3000/finalizar_servico/${userId}`);
+        const finalizaResult = await finalizarResponse.json();
+        if (finalizaResult.status === 'success') {
+          const finaliza = finalizaResult.data;
+          const finalizeInfo = `
+  <h3>O serviço foi concluído?</h3>
+  <div class="categorias">
+    <div class="categoria">
+      <div class="card-container">
+        <div class="card">
+          <p>${finaliza.id_solicita ? `id: ${finaliza.id_solicita}` : ''}</p>
+          <p>${finaliza.tipo_reforma ? `Tipo de lugar: ${finaliza.tipo_reforma}` : ''}</p>
+          <p>${finaliza.ambiente ? `Ambiente: ${finaliza.ambiente}` : ''}</p>
+          <p>${finaliza.ambiente_extra ? `Ambiente Extra: ${finaliza.ambiente_extra}` : ''}</p>
+          <p>${finaliza.necessidade_obra ? `Necessidade de Obra: ${finaliza.necessidade_obra}` : ''}</p>
+          <p>${finaliza.atividade_salao ? `Atividade do Salão: ${finaliza.atividade_salao}` : ''}</p>
+          <p>${finaliza.descricao ? `Descrição: ${finaliza.descricao}` : ''}</p>
+          <p>${finaliza.descricao_reforma ? `Descrição da Reforma: ${finaliza.descricao_reforma}` : ''}</p>
+          <p>${finaliza.data_inicio ? `Data de Início: ${finaliza.data_inicio}` : ''}</p>
+          <p>${finaliza.rua ? `Endereço: ${finaliza.rua}` : ''}</p>
+          <p>${finaliza.nome_completo ? `Nome prestador: ${finaliza.nome_completo}` : ''}</p>
+          <p>${finaliza.valor ? `Valor: ${finaliza.valor}` : ''}</p>
+          <button type="button" onclick="finalizarServico('${finaliza.id_solicita}')">Finalizar serviço</button>
+        </div>
+      </div>
+    </div>
+  </div>
+`;
+
+          updateElement('servicos_concluir', finalizeInfo);
+        }
+
+        // Fetch completed services
+        const finalizadoResponse = await fetch(`http://localhost:3000/servico_finalizado/${userId}`);
+        const finalizadoesult = await finalizadoResponse.json();
+        if (finalizadoesult.status === 'success') {
+          const finalizado = finalizadoesult.data;
+          const finalizeInfo = `
+          <h3>Serviços Feitos!</h3>
+          <div class="categorias">
+        <div class="categoria">
+          <div class="card-container">
+            <div class="card">
+            <p>${finalizado.tipo_reforma ? `Tipo de lugar: ${finalizado.tipo_reforma}` : ''}</p>
+            <p>${finalizado.ambiente ? `Ambiente: ${finalizado.ambiente}` : ''}</p>
+            <p>${finalizado.ambiente_extra ? `Ambiente Extra: ${finalizado.ambiente_extra}` : ''}</p>
+            <p>${finalizado.necessidade_obra ? `Necessidade de Obra: ${finalizado.necessidade_obra}` : ''}</p>
+            <p>${finalizado.atividade_salao ? `Atividade do Salão: ${finalizado.atividade_salao}` : ''}</p>
+            <p>${finalizado.descricao ? `Descrição: ${finalizado.descricao}` : ''}</p>
+            <p>${finalizado.descricao_reforma ? `Descrição da Reforma: ${finalizado.descricao_reforma}` : ''}</p>
+            <p>${finalizado.data_inicio ? `Data de Início: ${finalizado.data_inicio}` : ''}</p>
+            <p>${finalizado.data_fim ? `Fim da reforma: ${finalizado.data_fim}` : ''}</p>
+            <p>${finalizado.nome_completo ? `Nome prestador: ${finalizado.nome_completo}` : ''}</p>
+            <p>${finalizado.valor ? `Valor: ${finalizado.valor}` : ''}</p>
+            <p>${finalizado.nota ? `Avaliação: ${finalizado.nota}` : ''}</p>
+            <button type="button" onclick="servico_finalizado()">Ver detalhes</button>
+            </div>
+            </div>
+            </div>
+            </div>
+          `;
+          updateElement('servico_finalizado', finalizeInfo);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar e atualizar dados:', error);
+      }
+    }
+
+    async function initialize() {
+      const userId = await getUserId();
+      if (userId) {
+        await fetchAndUpdateData(userId);
+      } else {
+        alert('Usuário não encontrado. Por favor, faça login novamente.');
+      }
+    }async function editarInformacoesPessoais() {
+  try {
+    const userId = await getUserId();
+    if (userId) {
+      window.location.href = `editar_informacoes_cliente.html?id=${userId}`;
+    } else {
+      console.error('ID do usuário não encontrado');
+    }
+  } catch (error) {
+    console.error('Erro ao redirecionar para edição de informações pessoais:', error);
+  }
+}
+
+async function editarEndereco() {
+  try {
+    const userId = await getUserId();
+    if (userId) {
+      window.location.href = `editar_endereco_cliente.html?id=${userId}`;
+    } else {
+      console.error('ID do usuário não encontrado');
+    }
+  } catch (error) {
+    console.error('Erro ao redirecionar para edição de endereço:', error);
+  }
+}
+
+async function editarReforma() {
+  try {
+    const userId = await getUserId();
+    if (userId) {
+      window.location.href = `editar_solicita_reforma.html?id=${userId}`;
+    } else {
+      console.error('ID do usuário não encontrado');
+    }
+  } catch (error) {
+    console.error('Erro ao redirecionar para a edição de reforma:', error);
+  }
+}
+
+function aceitarProposta(id_orcamento) {
+  window.location.href = `orcamento.html?id_orcamento=${id_orcamento}`;
+}
+// Função que redireciona para a página de avaliação com o id_solicita na URL
+function finalizarServico(id_solicita) {
+  window.location.href = `finalizar_servico_cliente.html?id_solicita=${id_solicita}`;
+}
+
+
+async function logout() {
+  try {
+    const response = await fetch('http://localhost:3000/logout', { method: 'POST' });
+    const result = await response.json();
+    if (result.status === 'success') {
+      localStorage.removeItem('userId');
+      window.location.href = 'login.html';
+    } else {
+      console.error('Logout falhou:', result.message);
+    }
+  } catch (error) {
+    console.error('Erro ao sair:', error);
+  }
+}
+
+    initialize();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilo da página */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  max-width:1200px;
+  margin: auto;
+}
+.logo-reformoou{
+  width: 200px;
+  margin-right: 1100px;
+}
+
+nav.menu {
+  background-color: #333;
+  padding: 15px 0;
+}
+
+nav.menu ul {
+  list-style: none;
+  text-align: center;
+  position: relative;
+}
+
+nav.menu ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+nav.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+nav.menu ul li a:hover {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+nav.menu ul li.right {
+  position: absolute;
+  right: 130px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+nav.menu ul li.right_login {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+h1, h2, h3 {
+  color: #333;
+}
+
+.section {
+  margin-top: 20px; /* Espaço entre as seções */
+  display: flex;
+  gap: 20px;
+}
+
+.section .dados,
+.section .endereco {
+  flex: 1;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Centraliza o texto no card */
+  width: 100%; /* Para ocupar toda a largura do container */
+  max-width: 300px; /* Largura máxima dos cards */
+  margin-bottom: 20px; /* Espaço entre os cards */
+  max-height: 300px;
+}
+
+.card button {
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 15px;
+  width: 200px;
+  height:37px;
+}
+
+.card button:hover {
+  background-color: #ff4500;
+  font-size: 17px;
+}
+
+.card-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.categorias {
+  margin-top: 20px;
+}
+
+.categoria {
+  margin-bottom: 20px;
+}
+
+.categoria h3 {
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.categoria .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start; /* Alinha os cards à esquerda */
+}
+
+.categoria .card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Para ocupar toda a largura disponível */
+  max-width: calc(50% - 20px); /* Largura máxima dos cards */
+  margin-bottom: 20px; /* Espaço entre os cards */
+}
+
+.categoria .card h3 {
+  margin-bottom: 10px;
+}
+
+.categoria .card p {
+  text-align: left; /* Alinha o texto dos parágrafos à esquerda */
+  margin-bottom: 5px; /* Espaçamento entre os parágrafos */
+}
+
+.categoria .card button {
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.categoria .card button:hover {
+  background-color: #ff4500;
+}
+nav.menu ul li.right {
+  position: absolute;
+  right: 150px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+nav.menu ul li.right_login {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-profissional, .btn-login {
+  background-color: #ff6347;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-profissional:hover, .btn-login:hover {
+  background-color: #ff4500;
+}
+
+.perfil_wrapper {
+  width: 100vw; /* Largura total da viewport */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw; /* Alinha à esquerda */
+  margin-right: -50vw; /* Alinha à direita */
+  background-color: #0047ab;
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: white;
+  padding: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.informacoes_perfil h1{
+  font-size: 2.5em;
+  color: white;
+}
+
+.informacoes_perfil p{
+  font-size: 1.2em;
+  color: grey;
+}
+
+.informacoes_perfil a{
+  text-decoration: none;
+  color: #a70d0d;
+}
+
+.foto_cliente{
+  border-radius: 100%;
+  height: 90%;
+  width: 90%;
+  border: 8px solid white;
+}
+
+.suas_informacoes{
+  display: flex;
+}
+
+.enquadramento{
+  width: 800px;
+  height: 200px;
+}

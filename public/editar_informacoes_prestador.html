@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Informações Pessoais</title>
+  <link rel="stylesheet" href="css/editar.css">
+  <link rel="stylesheet" href="css/FONT.css">
+  <script src="senha.js"></script>
+</head>
+<style>
+  .valid {
+    color: green;
+  }
+
+  .invalid {
+    color: red;
+  }
+</style>
+
+<body>
+
+  <div class="container">
+    <h1>Editar Informações Pessoais</h1>
+
+    <form id="editarForm">
+      <div class="form-group">
+        <label for="nome">Nome Completo:</label>
+        <input type="text" id="nome" name="nome_completo" placeholder="Digite seu nome completo">
+      </div>
+
+      <div class="form-group">
+        <label for="documento">CPF/CNPJ:</label>
+        <input type="text" id="documento" name="documento" placeholder="Digite seu CPF ou CNPJ">
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" placeholder="Digite seu e-mail">
+      </div>
+
+      <div class="form-group">
+        <label for="telefone">Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" placeholder="Digite seu telefone" oninput="mascaraTelefone(this)">  
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha:</label>
+        <div class="password-wrapper">
+            <input type="password" id="senha" name="senha" oninput="validarSenha(this)" required>
+            <button type="button" id="toggle-password" class="toggle-password" onclick="togglePasswordVisibility()">
+                <img src="imagens/olho.png" alt="Mostrar Senha" id="eye-image">
+            </button>
+        </div>
+      </div>
+  
+      <ul class="password-requirements" style="color:red; margin-top: -10px; margin-bottom: 30px; margin-left: 20px;">
+          <li id="minimo-caracteres" class="invalid">Mínimo de 8 caracteres</li>
+          <li id="caracter-especial" class="invalid">Contém um caractere especial</li>
+          <li id="caracter-maiusculo" class="invalid">Contém uma letra maiúscula</li>
+          <li id="caracter-numero" class="invalid">Contém um número</li>
+      </ul>
+  
+      <button type="submit" class="btn-salvar">Salvar Alterações</button>
+      <br><br>
+      <a href="painel_user.html" style="color:red;">Cancelar Alterações</a>
+    </form>
+  </div>
+
+  <script>
+    function getQueryParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const userId = getQueryParameter('id');
+      if (!userId) {
+        console.error('ID do usuário não encontrado na URL');
+        return;
+      }
+      console.log(`ID do Usuário: ${userId}`);
+
+      // Carregar dados do usuário
+      carregarDadosUsuario(userId);
+
+      // Manipular envio do formulário para atualizar os dados
+      const form = document.getElementById('editarForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Impede o envio padrão do formulário
+
+        const senha = document.getElementById('senha').value;
+
+        if (!validarSenha(senha)) {
+          alert('A senha não atende aos requisitos.');
+          return; // Impede o envio do formulário se a senha for inválida
+        }
+
+        const nome_completo = document.getElementById('nome').value;
+        const documento = document.getElementById('documento').value;
+        const email = document.getElementById('email').value;
+        const telefone = document.getElementById('telefone').value;
+
+        // Enviar dados via fetch para a API
+        fetch(`http://localhost:3000/usuario_prestador/${userId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ nome_completo, documento, email, telefone, senha })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              alert('Informações atualizadas com sucesso');
+              window.location.href = 'painel_prestador.html?id=' + userId;
+            } else {
+              alert('Erro ao atualizar informações: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Erro ao enviar dados:', error);
+            alert('Erro ao atualizar informações');
+          });
+      });
+    });
+
+    function mascaraTelefone(telefone) {
+    // Remove todos os caracteres não numéricos
+    let valor = telefone.value.replace(/\D/g, '');
+
+    // Aplica a máscara
+    if (valor.length <= 10) {
+      valor = valor.replace(/(\d{2})(\d)/, "($1) $2");
+      valor = valor.replace(/(\d)(\d{4})$/, "$1-$2");
+    } else {
+      valor = valor.replace(/(\d{2})(\d)(\d{4})(\d)/, "($1) $2$3-$4");
+    }
+
+    telefone.value = valor;
+  }
+
+    // Função para validar a senha
+    function validarSenha(senha) {
+      const minCaracteres = senha.length >= 8;
+      const caracterEspecial = /[!@#$%^&*(),.?":{}|<>]/.test(senha);
+      const caracterMaiusculo = /[A-Z]/.test(senha);
+      const caracterNumero = /[0-9]/.test(senha);
+
+      // Atualiza a lista de requisitos de senha
+      document.getElementById('minimo-caracteres').className = minCaracteres ? 'valid' : 'invalid';
+      document.getElementById('caracter-especial').className = caracterEspecial ? 'valid' : 'invalid';
+      document.getElementById('caracter-maiusculo').className = caracterMaiusculo ? 'valid' : 'invalid';
+      document.getElementById('caracter-numero').className = caracterNumero ? 'valid' : 'invalid';
+
+      return minCaracteres && caracterEspecial && caracterMaiusculo && caracterNumero; // Retorna true se todos os critérios forem atendidos
+    }
+
+    // Função para carregar as informações do usuário
+    function carregarDadosUsuario(userId) {
+      fetch(`http://localhost:3000/usuario_prestador/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            document.getElementById('nome').value = data.data.nome_completo || '';
+            document.getElementById('documento').value = data.data.documento || '';
+            document.getElementById('email').value = data.data.email || '';
+            document.getElementById('telefone').value = data.data.telefone || '';
+            document.getElementById('senha').value = data.data.senha || '';
+          } else {
+            console.error('Usuário não encontrado');
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao buscar informações do usuário:', error);
+        });
+    }
+  </script>
+</body>
+
+</html>

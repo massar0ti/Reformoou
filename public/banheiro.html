@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banheiro</title>
+    <link rel="stylesheet" href="banheiro.css">
+    <link rel="stylesheet" href="footer.css">
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <div class="cabecalho-titulo">
+            <img src="imagens/img/LOGOREFORMOOUDELADO-2-removebg-preview (1).png" alt="Logo Reformoou"
+                class="logo-reformoou">
+            <a href="#" class="prestador">Seja prestador</a>
+            <a href="login.html"><img src="../imagens/account.png" alt="Conta" class="logo-conta"></a>
+        </div>
+    </header>
+
+    <main class="main">
+        <h1 class="titulo__main">Selecione o tipo de reforma</h1>
+        <section class="painel">
+            <article class="article__1">
+                <article class="icons">
+                    <button class="img__lateral" id="button1"><img src="img/cano.png" alt="Cano"
+                            class="imgpopo"></button>
+                    <button class="img__lateral" id="button2"><img src="img/pincel.png" alt="Pincel"
+                            class="imgpopo"></button>
+                    <button class="img__lateral" id="button3"><img src="img/cabo.png" alt="Tomada"
+                            class="imgpopo"></button>
+                    <button class="img__lateral" id="button4"><img src="img/piso.png" alt="Piso"
+                            class="imgpopo"></button>
+                </article>
+
+                <article class="cont__principal" id="chuveiro" onclick="changeColor(event, 'chuveiro')">
+                    <p class="titulo__comodos">Ponto de água</p>
+                    <figure><img src="img/chuveiro.jpg" alt="Chuveiro" class="img__chuveiro"></figure>
+                    <button class="selecionar__1">Selecionar</button>
+                </article>
+                <article class="cont__principal" id="esgoto" onclick="changeColor(event, 'esgoto')">
+                    <p class="titulo__comodos">Esgoto</p>
+                    <figure><img src="img/esgoto.jpg" alt="Esgoto" class="img__esgoto"></figure>
+                    <button class="selecionar__2">Selecionar</button>
+                </article>
+
+                <article class="cont__principal cont__principal-pintura" id="pintura-parede" style="display: none;"
+                    onclick="changeColor(event, 'pintura-parede')">
+                    <p class="titulo__comodos">Pintura de Parede</p>
+                    <figure><img src="img/pintura_parede.jpg" alt="Pintura de Parede" class="img__parede"></figure>
+                    <button class="selecionar__1">Selecionar</button>
+                </article>
+
+                <article class="cont__principal cont__principal-pintura" id="pintura-teto" style="display: none;"
+                    onclick="changeColor(event, 'pintura-teto')">
+                    <p class="titulo__comodos">Pintura no Teto</p>
+                    <figure><img src="img/pintura_teto.jpg" alt="Pintura no Teto" class="img__teto"></figure>
+                    <button class="selecionar__2">Selecionar</button>
+                </article>
+
+                <article class="cont__principal cont__principal-tomada" id="tomada" style="display: none;"
+                    onclick="changeColor(event, 'tomada')">
+                    <p class="titulo__comodos">Tomadas</p>
+                    <figure><img src="img/tomada.jpg" alt="tomada" class="img__tomada"></figure>
+                    <button class="selecionar__1">Selecionar</button>
+                </article>
+
+                <article class="cont__principal cont__principal-lampadas" id="lampadas" style="display: none;"
+                    onclick="changeColor(event, 'lampadas')">
+                    <p class="titulo__comodos">Lampadas</p>
+                    <figure><img src="img/lampada.jpg" alt="lampada" class="img__lampada"></figure>
+                    <button class="selecionar__2">Selecionar</button>
+                </article>
+
+                <article class="cont__principal cont__principal-piso" id="piso" style="display: none;"
+                    onclick="changeColor(event, 'piso')">
+                    <p class="titulo__comodos">Piso</p>
+                    <figure><img src="img/piso.jpg" alt="tomada" class="img__piso"></figure>
+                    <button class="selecionar__1">Selecionar</button>
+                </article>
+
+                <article class="cont__principal cont__principal-azuleijo" id="azuleijo" style="display: none;"
+                    onclick="changeColor(event, 'azuleijo')">
+                    <p class="titulo__comodos">Azuleijo</p>
+                    <figure><img src="img/azuleijo.jpg" alt="lampada" class="img__esgoto"></figure>
+                    <button class="selecionar__2">Selecionar</button>
+                </article>
+
+            </article>
+
+
+
+            <article class="article__2">
+                <input type="checkbox" name="value" id="checkbox"><span class="per__art2">Não achou sua reforma ?
+                    Escreva abaixo o que deseja</span><br>
+                <div class="caixabotao">
+                    <input type="text" name="" id="caixa__text" placeholder="O que deseja reformar?" class="caixatexto">
+                    <div class="caixaconfirmar">
+                        <form action="confirmacao.html" method="post">
+                            <button class="boton-elegante">Confirmar</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section links"> <!-- MUDAR A COR PARA BRANCO -->
+                <h2>Links úteis</h2>
+                <ul>
+                    <li><a href="#">Política de privacidade</a></li>
+                    <li><a href="#">Termos de serviço</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h2>Contato</h2>
+                <ul>
+                    <li>Email: contato@reformoou.com</li>
+                    <li>Telefone: (11) 1234-5678</li>
+                    <li>Endereço: Rua das Reformas, 123, São Paulo, SP</li>
+                </ul>
+            </div>
+            <div class="footer-section social">
+                <h2>Redes sociais</h2>
+                <a href="#"><img src="./imagens/icons/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="./imagens/icons/instagram.png" alt="Instagram"></a>
+                <a href="#"><img src="./imagens/icons/linkedin.png" alt="Twitter"></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 Reformoou | Todos os direitos reservados.
+        </div>
+    </footer>
+    <script>
+        document.getElementById('button1').addEventListener('click', function () {
+            document.querySelectorAll('.cont__principal').forEach(function (article) {
+                article.style.display = 'none';
+            });
+            document.getElementById('chuveiro').style.display = 'flex';
+            document.getElementById('esgoto').style.display = 'flex';
+        });
+
+        document.getElementById('button2').addEventListener('click', function () {
+            document.querySelectorAll('.cont__principal').forEach(function (article) {
+                article.style.display = 'none';
+            });
+            document.querySelectorAll('.cont__principal-pintura').forEach(function (article) {
+                article.style.display = 'flex';
+            });
+        });
+
+        document.getElementById('button3').addEventListener('click', function () {
+            document.querySelectorAll('.cont__principal').forEach(function (article) {
+                article.style.display = 'none';
+            });
+            document.getElementById('tomada').style.display = 'flex';
+            document.getElementById('lampadas').style.display = 'flex';
+        });
+
+        document.getElementById('button4').addEventListener('click', function () {
+            document.querySelectorAll('.cont__principal').forEach(function (article) {
+                article.style.display = 'none';
+            });
+            document.getElementById('piso').style.display = 'flex';
+            document.getElementById('azuleijo').style.display = 'flex';
+        });
+
+        function changeColor(event, id) {
+            var container = document.getElementById(id);
+
+            // Verifica se o elemento clicado é o próprio container ou o botão
+            if (event.target === container || event.target.classList.contains('selecionar__1')) {
+                // Verifica se o container já possui a classe clicked
+                if (container.classList.contains('clicked')) {
+                    // Se já possui, remove a classe para restaurar a cor original
+                    container.classList.remove('clicked');
+                    container.classList.remove('focus');
+                } else {
+                    // Se não possui, adiciona a classe para tornar a cor azul
+                    container.classList.add('clicked');
+                    container.classList.add('focus');
+                }
+            }
+        }   
+    </script>
+</body>
+
+</html>
